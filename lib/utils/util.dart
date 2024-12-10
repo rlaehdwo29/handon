@@ -94,7 +94,7 @@ class Util {
               //return "\"교배예정돈이 아닙니다.\n교배입력을 진행하시겠습니까?\"";
             } else {
               //return "\"교배입력이 불가합니다.\n모돈의 현재상태를 먼저 확인해 주십시오.\"";
-              context.read<MenuProvider>().translate('msg_no_write_mate');
+              return context.read<MenuProvider>().translate('msg_no_write_mate');
             }
           }else if(code == "delivery") {
             if (model?.pig_status_cd == "K") {
@@ -123,7 +123,8 @@ class Util {
           }else if(code == "out") {
             if (model?.pig_status_cd == "O" || model?.pig_status_cd == "P" ) {
               //return "\"도폐입력이 불가합니다.\n모돈의 현재상태를 먼저 확인해 주십시오.\"";
-              return context.read<MenuProvider>().translate('msg_no_write_out');
+              //return context.read<MenuProvider>().translate('msg_no_write_out');
+              return context.read<MenuProvider>().translate('msg_selected_culled_sow');
             } else {
               return context.read<MenuProvider>().translate('msg_sucess_individual');
               //return "\"개체선택이 완료되었습니다.\"";

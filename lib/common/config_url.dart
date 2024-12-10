@@ -2,7 +2,7 @@ const String m_ServerRelease = "http://218.48.32.186:18000/";    // 운영서버
 const String m_ServerDebug = "http://192.168.53.51:9080";         // Local
 const String m_ServerTest = "http://112.171.80.94:8000/";           // 테스트서버
 
-const String SERVER_URL = m_ServerRelease;
+const String SERVER_URL = m_ServerTest;
 
 
 // 로그인

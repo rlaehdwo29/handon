@@ -499,7 +499,7 @@ class _MainPageState extends State<MainPage> with CommonMainWidget, WidgetsBindi
 
     Widget mainMenu() {
       return Container(
-        margin: EdgeInsets.symmetric(horizontal: CustomStyle.getWidth(20)),
+        margin: EdgeInsets.symmetric(horizontal: CustomStyle.getWidth(10)),
           child: Column(
         children: [
           // 첫번째 메뉴
@@ -512,7 +512,7 @@ class _MainPageState extends State<MainPage> with CommonMainWidget, WidgetsBindi
                     goToManage();
                   },
                   child: Container(
-                      width: CustomStyle.getWidth(120),
+                      width: CustomStyle.getWidth(150),
                       height: CustomStyle.getHeight(120),
                       padding: EdgeInsets.symmetric(vertical: CustomStyle.getHeight(5)),
                       decoration: const BoxDecoration(
@@ -524,7 +524,7 @@ class _MainPageState extends State<MainPage> with CommonMainWidget, WidgetsBindi
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                              width: CustomStyle.getWidth(90),
+                              width: CustomStyle.getWidth(100),
                               height: CustomStyle.getHeight(65),
                               child: Image.asset(
                                 "assets/image/mating.png",
@@ -549,7 +549,7 @@ class _MainPageState extends State<MainPage> with CommonMainWidget, WidgetsBindi
                     goToWork();
                   },
                   child: Container(
-                      width: CustomStyle.getWidth(120),
+                      width: CustomStyle.getWidth(150),
                       height: CustomStyle.getHeight(120),
                       padding: EdgeInsets.symmetric(vertical: CustomStyle.getHeight(5)),
                       decoration: const BoxDecoration(
@@ -561,7 +561,7 @@ class _MainPageState extends State<MainPage> with CommonMainWidget, WidgetsBindi
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                              width: CustomStyle.getWidth(90),
+                              width: CustomStyle.getWidth(100),
                               height: CustomStyle.getHeight(65),
                               child: Image.asset(
                                 "assets/image/farrowing.png",
@@ -594,7 +594,7 @@ class _MainPageState extends State<MainPage> with CommonMainWidget, WidgetsBindi
                         goToWean();
                       },
                       child: Container(
-                          width: CustomStyle.getWidth(120),
+                          width: CustomStyle.getWidth(150),
                           height: CustomStyle.getHeight(120),
                           padding: EdgeInsets.symmetric(vertical: CustomStyle.getHeight(5)),
                           decoration: const BoxDecoration(
@@ -607,7 +607,7 @@ class _MainPageState extends State<MainPage> with CommonMainWidget, WidgetsBindi
                             children: [
                               Container(
                                 margin: EdgeInsets.symmetric(vertical: CustomStyle.getHeight(10)),
-                                  width: CustomStyle.getWidth(90),
+                                  width: CustomStyle.getWidth(100),
                                   height: CustomStyle.getHeight(45),
                                   child: Image.asset(
                                     "assets/image/weaning.png",
@@ -632,7 +632,7 @@ class _MainPageState extends State<MainPage> with CommonMainWidget, WidgetsBindi
                         await goToAccident();
                       },
                       child: Container(
-                          width: CustomStyle.getWidth(120),
+                          width: CustomStyle.getWidth(150),
                           height: CustomStyle.getHeight(120),
                           padding: EdgeInsets.symmetric(vertical: CustomStyle.getHeight(5)),
                           decoration: const BoxDecoration(
@@ -644,7 +644,7 @@ class _MainPageState extends State<MainPage> with CommonMainWidget, WidgetsBindi
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                  width: CustomStyle.getWidth(90),
+                                  width: CustomStyle.getWidth(100),
                                   height: CustomStyle.getHeight(65),
                                   child: Image.asset(
                                     "assets/image/prcheck.png",
@@ -678,7 +678,7 @@ class _MainPageState extends State<MainPage> with CommonMainWidget, WidgetsBindi
                     await goToDead();
                   },
                   child: Container(
-                      width: CustomStyle.getWidth(120),
+                      width: CustomStyle.getWidth(150),
                       height: CustomStyle.getHeight(120),
                       padding: EdgeInsets.symmetric(vertical: CustomStyle.getHeight(5)),
                       decoration: const BoxDecoration(
@@ -690,7 +690,7 @@ class _MainPageState extends State<MainPage> with CommonMainWidget, WidgetsBindi
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                              width: CustomStyle.getWidth(90),
+                              width: CustomStyle.getWidth(100),
                               height: CustomStyle.getHeight(65),
                               child: Image.asset(
                                 "assets/image/culling.png",
@@ -716,7 +716,7 @@ class _MainPageState extends State<MainPage> with CommonMainWidget, WidgetsBindi
                     await goToIndividual();
                   },
                   child: Container(
-                      width: CustomStyle.getWidth(120),
+                      width: CustomStyle.getWidth(150),
                       height: CustomStyle.getHeight(120),
                       padding: EdgeInsets.symmetric(vertical: CustomStyle.getHeight(5)),
                       decoration: const BoxDecoration(
@@ -728,7 +728,7 @@ class _MainPageState extends State<MainPage> with CommonMainWidget, WidgetsBindi
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                              width: CustomStyle.getWidth(90),
+                              width: CustomStyle.getWidth(100),
                               height: CustomStyle.getHeight(65),
                               child: Image.asset(
                                 "assets/image/sowcard.png",

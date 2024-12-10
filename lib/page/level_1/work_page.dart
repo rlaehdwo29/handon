@@ -1345,7 +1345,7 @@ class _WorkPageState extends State<WorkPage> {
         return true;
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: main_color,
@@ -1440,10 +1440,10 @@ class _WorkPageState extends State<WorkPage> {
                                       onTap: () async {
                                         if(selectSowModel.value.mother_no != null ) {
                                           if(int.parse(work4Controller.text) > int.parse(work1Controller.text)) {
-                                            Util.toast(context.read<MenuProvider>().translate('msg_validation_outcnt'));
-                                            work4Controller.text = "0";
-                                            setCnt();
-                                            workFocus[3].requestFocus();
+                                            Util.toast(context.read<MenuProvider>().translate('msg_inputdata_minus'));
+                                            //work4Controller.text = "0";
+                                            //setCnt();
+                                            //workFocus[3].requestFocus();
                                           }else{
                                             await saveSow();
                                           }

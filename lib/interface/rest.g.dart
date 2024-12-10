@@ -13,7 +13,7 @@ class _Rest implements Rest {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://218.48.32.186:18000/';
+    baseUrl ??= 'http://112.171.80.94:8000/';
   }
 
   final Dio _dio;

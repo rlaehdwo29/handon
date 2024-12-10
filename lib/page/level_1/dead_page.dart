@@ -1153,7 +1153,7 @@ class _DeadPageState extends State<DeadPage> {
                                         if(selectSowModel.value.mother_no != null ) {
                                           await saveSow();
                                         }else{
-                                          Util.toast(context.read<MenuProvider>().translate('msg_select_save_delivery'));
+                                          Util.toast(context.read<MenuProvider>().translate('msg_select_save_mother'));
                                         }
                                       },
                                         child: Container(
