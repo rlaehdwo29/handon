@@ -11,7 +11,7 @@ bool isSupported(Locale locale) => ['ko', 'ne', 'my' , 'km'].contains(locale.lan
 @override
 Future<Strings> load(Locale locale) async {
   Strings _strings = Strings(locale);
-  await _strings.load();
+  await _strings.load(locale.languageCode);
 
   print("Load ${locale.languageCode}");
 

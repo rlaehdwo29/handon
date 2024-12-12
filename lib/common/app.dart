@@ -17,7 +17,7 @@ class App extends GetxController {
 
   Future<String> getLanguage() async {
     String? val = await SP.getString(Const.CD_LANGUAGE,"ko");
-    language.value = val!;
+    language.value = val??"ko";
     return language.value;
   }
 

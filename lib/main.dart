@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,13 +9,18 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:handon_project/common/app.dart';
+import 'package:handon_project/common/config_url.dart';
 import 'package:handon_project/common/string_locale_delegate.dart';
 import 'package:handon_project/common/style_theme.dart';
 import 'package:handon_project/db/appdatabase.dart';
+import 'package:handon_project/interface/model/user_model.dart';
 import 'package:handon_project/interface/service/main_service.dart';
 import 'package:handon_project/page/bridge_page.dart';
 import 'package:handon_project/provider/menu_provider.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 late AppDataBase database;
 

@@ -85,11 +85,10 @@ class _SettingPageState extends State<SettingPage> {
                 children: [
                   InkWell(
                       onTap: () async {
-                        setState(() {
-                          checkLanguage.value = "ko";
-                          controller.setLanguage(checkLanguage.value);
-                          changeLanguage(context, checkLanguage.value);
-                        });
+                        checkLanguage.value = "ko";
+                        controller.setLanguage(checkLanguage.value);
+                        changeLanguage(context, checkLanguage.value);
+                        setState(() {});
                       },
                       child: Container(
                         decoration: checkLanguage.value == "ko" ? BoxDecoration(
@@ -106,11 +105,10 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                   InkWell(
                       onTap: () async {
-                        setState(() {
-                          checkLanguage.value = "ne";
-                          controller.setLanguage(checkLanguage.value);
-                          changeLanguage(context, checkLanguage.value);
-                        });
+                        checkLanguage.value = "ne";
+                        controller.setLanguage(checkLanguage.value);
+                        changeLanguage(context, checkLanguage.value);
+                        setState(() {});
                       },
                       child: Container(
                         decoration: checkLanguage.value == "ne" ? BoxDecoration(
@@ -126,12 +124,11 @@ class _SettingPageState extends State<SettingPage> {
                       )
                   ),
                   InkWell(
-                      onTap: (){
-                        setState(() {
-                          checkLanguage.value = "my";
-                          controller.setLanguage(checkLanguage.value);
-                          changeLanguage(context, checkLanguage.value);
-                        });
+                      onTap: () async {
+                        checkLanguage.value = "my";
+                        controller.setLanguage(checkLanguage.value);
+                        changeLanguage(context, checkLanguage.value);
+                        setState(() {});
                       },
                       child: Container(
                         decoration: checkLanguage.value == "my" ? BoxDecoration(
@@ -147,12 +144,11 @@ class _SettingPageState extends State<SettingPage> {
                     )
                   ),
                   InkWell(
-                      onTap: (){
-                        setState(() {
-                          checkLanguage.value = "km";
-                          controller.setLanguage(checkLanguage.value);
-                          changeLanguage(context, checkLanguage.value);
-                        });
+                      onTap: () async {
+                        checkLanguage.value = "km";
+                        controller.setLanguage(checkLanguage.value);
+                        changeLanguage(context, checkLanguage.value);
+                        setState(() {});
                       },
                       child: Container(
                         decoration: checkLanguage.value == "km" ? BoxDecoration(

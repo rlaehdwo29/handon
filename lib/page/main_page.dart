@@ -112,25 +112,14 @@ class _MainPageState extends State<MainPage> with CommonMainWidget, WidgetsBindi
                                                                 Row(
                                                                   children: [
                                                                     Image.asset(
-                                                                      "assets/image/handon0.png",
+                                                                      "assets/image/handon_logoT.png",
                                                                       width: CustomStyle.getWidth(38.0),
                                                                       height: CustomStyle.getHeight(38.0),
                                                                     ),
-                                                                    Container(
-                                                                      margin: EdgeInsets.only(left: CustomStyle.getWidth(5)),
-                                                                      width: CustomStyle.getWidth(150),
-                                                                      alignment: Alignment.centerLeft,
-                                                                      child: Consumer<MenuProvider>(
-                                                                          builder: (context, menuProvider, child) {
-                                                                            return FittedBox(
-                                                                                fit: BoxFit.scaleDown,
-                                                                                child: Text(
-                                                                                  menuProvider.translate('main_title'),
-                                                                                  softWrap: true,
-                                                                                  textAlign: TextAlign.start,
-                                                                                  style: CustomStyle.CustomFont(styleFontSize18,Colors.white,font_weight: FontWeight.w700),
-                                                                                ));
-                                                                          })
+                                                                    Image.asset(
+                                                                      "assets/image/handon_600wT.png",
+                                                                      width: CustomStyle.getWidth(68.0),
+                                                                      height: CustomStyle.getHeight(38.0),
                                                                     ),
                                                                   ],
                                                                 ),
@@ -847,16 +836,11 @@ class _MainPageState extends State<MainPage> with CommonMainWidget, WidgetsBindi
               ),
           )
         ),
-        title: Consumer<MenuProvider>(
-            builder: (context, menuProvider, child) {
-              return FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-              menuProvider.translate('main_title')?.trim().isEmpty == true ? "한돈팜스" : menuProvider.translate('main_title'),
-          textAlign: TextAlign.center,
-          style: CustomStyle.CustomFont(styleFontSize18, Colors.white),
-          ));
-        }),
+        title: Image.asset(
+          "assets/image/handon_600wT.png",
+          width: CustomStyle.getWidth(85.0),
+          height: CustomStyle.getHeight(50.0),
+        ),
       ),
         drawer: getAppBarMenu(),
       body: Container(

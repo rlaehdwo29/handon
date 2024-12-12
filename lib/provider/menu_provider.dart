@@ -1,15 +1,18 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:handon_project/common/app.dart';
 import 'package:handon_project/common/common_util.dart';
+import 'package:handon_project/common/config_url.dart';
 import 'package:handon_project/interface/model/code_model.dart';
 import 'package:handon_project/interface/model/user_model.dart';
 import 'package:handon_project/interface/service/dio_service.dart';
 import 'package:logger/logger.dart';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 class MenuProvider with ChangeNotifier {
   final controller = Get.find<App>();
@@ -17,8 +20,25 @@ class MenuProvider with ChangeNotifier {
   Map<String, dynamic> _translations = {};
 
   Future<void> loadTranslations(String languageCode) async {
-    _translations = await getCode(languageCode);
-    notifyListeners();
+    try {
+      // 애플리케이션 디렉토리 경로 가져오기
+      final Directory appDocDir = await getApplicationDocumentsDirectory();
+      final String filePath =
+          '${appDocDir.path}/assets/translations/$languageCode.json';
+
+      // 파일 로드
+      final File file = File(filePath);
+
+      if (await file.exists()) {
+        final String jsonString = await file.readAsString();
+        _translations = jsonDecode(jsonString);
+        notifyListeners();
+      } else {
+        print('파일이 존재하지 않습니다: $filePath');
+      }
+    } catch (e) {
+      print('로드 중 오류 발생(M): $e');
+    }
   }
 
   String translate(String key) {
@@ -31,7 +51,7 @@ class MenuProvider with ChangeNotifier {
     UserModel mUser = await controller.getUserInfo();
     final response = await http.post(headers: {
     "Content-Type" : "application/json"
-    },Uri.parse('http://112.171.80.94:8000/get_code?access_key=${mUser.access_key}&cmd=${code == "ne" ? "LANG_NPL" : code == "my" ? "LANG_MMR" : code == "km" ? "LANG_KHM" : "LANG_KOR" }&site_gubun=K&user_id=${mUser.user_id}'));
+    },Uri.parse('${SERVER_URL}get_code?access_key=${mUser.access_key}&cmd=${code == "ne" ? "LANG_NPL" : code == "my" ? "LANG_MMR" : code == "km" ? "LANG_KHM" : "LANG_KOR" }&site_gubun=K&user_id=${mUser.user_id}'));
 
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);

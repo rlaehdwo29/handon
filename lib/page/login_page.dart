@@ -139,12 +139,11 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                      onTap: (){
-                        setState(() {
-                          checkLanguage.value = "ko";
-                          changeLanguage(context, 'ko');
-                          controller.setLanguage(checkLanguage.value);
-                        });
+                      onTap: () async {
+                        checkLanguage.value = "ko";
+                        changeLanguage(context, 'ko');
+                        controller.setLanguage(checkLanguage.value);
+                        setState(() {});
                       },
                       child: Obx(() => Container(
                         decoration: checkLanguage.value == "ko" ? BoxDecoration(
@@ -162,11 +161,11 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
                     )
                   ),
                   InkWell(
-                      onTap: (){
+                      onTap: () async {
+                        checkLanguage.value = "ne";
+                        changeLanguage(context, 'ne');
+                        controller.setLanguage(checkLanguage.value);
                         setState(() {
-                          checkLanguage.value = "ne";
-                          changeLanguage(context, 'ne');
-                          controller.setLanguage(checkLanguage.value);
                         });
                       },
                       child: Obx(() => Container(
@@ -185,13 +184,11 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
                     )
                   ),
                   InkWell(
-                      onTap: (){
-                        setState(() {
-                          checkLanguage.value = "my";
-                          changeLanguage(context, 'my');
-                          controller.setLanguage(checkLanguage.value);
-
-                        });
+                      onTap: () async {
+                        checkLanguage.value = "my";
+                        changeLanguage(context, 'my');
+                        controller.setLanguage(checkLanguage.value);
+                        setState(() {});
                       },
                       child: Obx(() => Container(
                         decoration: checkLanguage.value == "my" ? BoxDecoration(
@@ -209,12 +206,11 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
                       )
                   ),
                   InkWell(
-                      onTap: (){
-                        setState(() {
-                          checkLanguage.value = "km";
-                          changeLanguage(context, 'km');
-                          controller.setLanguage(checkLanguage.value);
-                        });
+                      onTap: () async {
+                        checkLanguage.value = "km";
+                        changeLanguage(context, 'km');
+                        controller.setLanguage(checkLanguage.value);
+                        setState(() {});
                       },
                       child: Obx(() => Container(
                         decoration: checkLanguage.value == "km" ? BoxDecoration(
