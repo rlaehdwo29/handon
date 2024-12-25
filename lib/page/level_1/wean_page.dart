@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:handon_project/common/app.dart';
 import 'package:handon_project/common/common_util.dart';
+import 'package:handon_project/common/strings.dart';
 import 'package:handon_project/common/style_theme.dart';
 import 'package:handon_project/interface/model/sow_model.dart';
 import 'package:handon_project/interface/model/user_model.dart';
@@ -546,7 +547,7 @@ class _WeanPageState extends State<WeanPage> {
                                             rowHeight: MediaQuery.of(context).size.width * MediaQuery.of(context).devicePixelRatio > 1500 ? CustomStyle.getHeight(30.h) : CustomStyle.getHeight(45.h),
                                             locale: language.value == "ko" ? 'ko_KR' : language.value == "ne" ? "ne_NE" : language.value == "my" ? "my_MY" : "km_KM",
                                             firstDay: DateTime.utc(2010, 1, 1),
-                                            lastDay: DateTime.utc(DateTime.now().year + 10, DateTime.now().month, DateTime.now().day),
+                                            lastDay: DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day),
                                             daysOfWeekHeight: language.value == "ko" ? 32 * MediaQuery.of(context).textScaleFactor : 60 * MediaQuery.of(context).textScaleFactor,
                                             headerStyle: HeaderStyle(
                                               // default로 설정 돼 있는 2 weeks 버튼을 없애줌 (아마 2주단위로 보기 버튼인듯?)
@@ -628,11 +629,9 @@ class _WeanPageState extends State<WeanPage> {
 
                                             calendarFormat: _calendarFormat,
                                             onDaySelected: (selectedDay, focusedDay) {
-                                              if (!isSameDay(tempSelectedDay, selectedDay)) {
                                                 setState(() {
                                                   tempSelectedDay = selectedDay;
                                                 });
-                                              }
                                             },
 
                                             onFormatChanged: (format) {
@@ -883,6 +882,7 @@ class _WeanPageState extends State<WeanPage> {
         mList.value = List.empty(growable: true);
       }
     }).catchError((Object obj) async {
+      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
       await pr?.hide();
       switch(obj.runtimeType) {
         case DioError:
@@ -906,6 +906,7 @@ class _WeanPageState extends State<WeanPage> {
       List<SowModel>? sow = _response.sow_list;
       openListDialog(this.context, sow);
     }).catchError((Object obj) async {
+      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
       await pr?.hide();
       switch(obj.runtimeType) {
         case DioError:
@@ -919,9 +920,9 @@ class _WeanPageState extends State<WeanPage> {
     });
   }
 
-  Future<void> saveSow(int _index, SowModel sow) async {
+  Future<Map<String,dynamic>> saveSow(int _index, SowModel sow) async {
     Logger logger = Logger();
-
+    Map<String,dynamic> result = {};
     try {
       // `sow.index`가 null일 경우 0으로 대체
       final int sowIndex = sow.index ?? 0;
@@ -934,7 +935,7 @@ class _WeanPageState extends State<WeanPage> {
               "weanControllers length: ${weanControllers.length}, "
               "lactationControllers length: ${lactationControllers.length}",
         );
-        return; // 잘못된 인덱스일 경우 작업 중단
+        result = {"result":false, "message": "모돈번호: ${sow.pig_coupon}\n 잘못된 인덱스입니다."};
       }
 
       // 로그로 상태 확인
@@ -967,7 +968,6 @@ class _WeanPageState extends State<WeanPage> {
 
         // 성공 여부 확인
         if (_response.error?["error_code"] == null || _response.error?["error_code"] == "") {
-          Util.toast(context.read<MenuProvider>().translate('msg_success_save_wean'));
 
           // 삭제 작업
           try {
@@ -978,7 +978,6 @@ class _WeanPageState extends State<WeanPage> {
                   "lactationControllers length: ${lactationControllers.length}",
             );
 
-            // 안전하게 삭제
             weanControllers.removeAt(currentIndex);
             lactationControllers.removeAt(currentIndex);
 
@@ -991,15 +990,20 @@ class _WeanPageState extends State<WeanPage> {
 
             // 리스트 갱신
             await getWeanList();
+            result = {"result":true, "message": ""};
             setState(() {});
           } catch (deleteError) {
             logger.e("Error during deletion: $deleteError");
-            Util.toast(context.read<MenuProvider>().translate('msg_error_delete_wean'));
+            //Util.toast(context.read<MenuProvider>().translate('msg_error_delete_wean'));
+            result = {"result":false, "message": "모돈번호: ${sow.pig_coupon}\n(${_response.error?["error_code"]}) ${context.read<MenuProvider>().translate('msg_error_delete_wean')}"};
           }
         } else {
-          Util.toast("${_response.error?["error_code"]} : ${_response.error?["message"]}");
+          result = {"result":false, "message": "모돈번호: ${sow.pig_coupon}\n(${_response.error?["error_code"]}) ${_response.error?["message"]}"};
+          //Util.toast("${_response.error?["error_code"]} : ${_response.error?["message"]}");
         }
       }).catchError((Object obj) async {
+        result = {"result":false, "message": "모돈번호: ${sow.pig_coupon}:\n${context.read<MenuProvider>().translate('msg_server_connection_issue')}"};
+        //Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
         // 오류 처리
         switch (obj.runtimeType) {
           case DioError:
@@ -1013,8 +1017,10 @@ class _WeanPageState extends State<WeanPage> {
       });
     } catch (e) {
       logger.e("Unexpected error in saveSow(): $e");
-      Util.toast(context.read<MenuProvider>().translate('msg_error_save_wean'));
+      //Util.toast(context.read<MenuProvider>().translate('msg_error_save_wean'));
+      result = {"result":false, "message": "모돈번호: ${sow.pig_coupon}\n${context.read<MenuProvider>().translate('msg_error_save_wean')}"};
     }
+    return result;
   }
 
   /**
@@ -1030,7 +1036,7 @@ class _WeanPageState extends State<WeanPage> {
         return true;
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: main_color,
@@ -1055,20 +1061,16 @@ class _WeanPageState extends State<WeanPage> {
         ),
         body: SafeArea(
           child: Obx(() {
-            return Column(
+            return SingleChildScrollView(
+                child: Column(
               children: [
-                Expanded(
-                    flex: 1,
-                    child: sowSearchWidget()
+                sowSearchWidget(),
+                SizedBox(
+                  height:  MediaQuery.sizeOf(context).height * 0.63,
+                  child: sowList()
                 ),
-                Expanded(
-                    flex: 8,
-                    child: sowList()
-                ),
-                Expanded(
-                    flex: 1,
-                    child: Container(
-                        margin: EdgeInsets.only(left: CustomStyle.getWidth(15)),
+               Container(
+                        margin: EdgeInsets.only(left: CustomStyle.getWidth(15),top: CustomStyle.getHeight(15)),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -1105,9 +1107,8 @@ class _WeanPageState extends State<WeanPage> {
                           ],
                         )
                     )
-                )
               ],
-            );
+            ));
           }),
         ),
         bottomNavigationBar: SizedBox(
@@ -1128,13 +1129,54 @@ class _WeanPageState extends State<WeanPage> {
                                     bottom:10,
                                     child: InkWell(
                                       onTap: () async {
-                                            if(selectSowList.length > 0) {
-                                               for(var i = 0; i < selectSowList.length; i++) {
-                                                 await saveSow(i,selectSowList[i]);
-                                               }
+
+                                        if (selectSowList.isNotEmpty) {
+                                          bool _isLoading = false;
+                                          double _progress = 0.0;
+                                          int total = selectSowList.length;
+                                          int count = 0;
+                                          int completed = 0;
+                                          int failed = 0;
+                                          String failReason = "";
+
+                                          // Progress 상태를 관리하는 변수
+                                          setState(() {
+                                            _isLoading = true;
+                                            _progress = 0;
+                                          });
+
+                                          await Future.forEach(selectSowList, (item) async {
+                                            Map<String,dynamic> result = await saveSow(count,item);
+                                            if(result["result"] == true) {
+                                              completed++;
                                             }else{
-                                              Util.toast((context.read<MenuProvider>().translate('msg_select_save_wean')));
+                                              failed++;
+                                              failReason += "${result["message"]}\n";
                                             }
+                                            count++;
+                                            // Progress 상태 업데이트
+                                            setState(() {
+                                              _progress = count / total;
+                                            });
+                                          });
+
+                                          setState(() {
+                                            _isLoading = false;
+                                            if(failed > 0) {
+                                              openOkBox(context,"Save Failed!!\n\n${failReason}",context.read<MenuProvider>().translate('yes'), () {
+                                                Navigator.of(context).pop(false);
+                                              });
+                                              if(completed > 0) {
+                                                Util.toast(context.read<MenuProvider>().translate('msg_success_save_wean'));
+                                              }
+                                            }else{
+                                              Util.toast(context.read<MenuProvider>().translate('msg_success_save_wean'));
+                                            }
+                                            selectSowList.value = List.empty(growable: true);
+                                          });
+                                        } else {
+                                          Util.toast((context.read<MenuProvider>().translate('msg_select_save_wean')));
+                                        }
                                       },
                                         child: Container(
                                           width:  MediaQuery.sizeOf(context).width * 0.5,

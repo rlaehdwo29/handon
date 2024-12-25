@@ -439,6 +439,7 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
         Util.toast(context.read<MenuProvider>().translate('msg_no_id'));
       }
     }).catchError((Object obj) async {
+      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
       await pr?.hide();
       switch(obj.runtimeType) {
       case DioError:

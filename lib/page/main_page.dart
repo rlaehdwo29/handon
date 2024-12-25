@@ -1,7 +1,3 @@
-
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -42,11 +38,6 @@ class _MainPageState extends State<MainPage> with CommonMainWidget, WidgetsBindi
   final mUser = UserModel().obs;
   final language = "my".obs;
 
-  late File _jsonFile;
-  late Directory _directory;
-  bool _fileExists = false;
-  Map<String, dynamic> _fileContent = {};
-
   @override
   void initState() {
     super.initState();
@@ -64,6 +55,8 @@ class _MainPageState extends State<MainPage> with CommonMainWidget, WidgetsBindi
   /**
    * Start Widget
    */
+
+  // Drawer 메뉴바
     Drawer getAppBarMenu() {
       return Drawer(
         backgroundColor: const Color(0xff1d1b20),
@@ -486,6 +479,7 @@ class _MainPageState extends State<MainPage> with CommonMainWidget, WidgetsBindi
       );
     }
 
+    //메인화면 메뉴
     Widget mainMenu() {
       return Container(
         margin: EdgeInsets.symmetric(horizontal: CustomStyle.getWidth(10)),
@@ -769,38 +763,38 @@ class _MainPageState extends State<MainPage> with CommonMainWidget, WidgetsBindi
    * Start Function
    */
 
-  //교배
+  //교배 화면으로 이동
   Future<void> goToManage() async {
     await Navigator.of(context).push(PageAnimationTransition(page: MatingPage(), pageAnimationType: RightToLeftFadedTransition()));
   }
 
-  //분만
+  //분만 화면으로 이동
   Future<void> goToWork() async {
     await Navigator.of(context).push(PageAnimationTransition(page: WorkPage(), pageAnimationType: RightToLeftFadedTransition()));
   }
 
-  // 이유
+  // 이유 화면으로 이동
   Future<void> goToWean() async {
     await Navigator.of(context).push(PageAnimationTransition(page: WeanPage(), pageAnimationType: RightToLeftFadedTransition()));
   }
 
-  //임신사고
+  //임신사고 화면으로 이동
   Future<void> goToAccident() async {
     await Navigator.of(context).push(PageAnimationTransition(page: AccidentPage(), pageAnimationType: RightToLeftFadedTransition()));
   }
 
-  // 도폐사
+  // 도폐사 화면으로 이동
   Future<void> goToDead() async {
     await Navigator.of(context).push(PageAnimationTransition(page: DeadPage(), pageAnimationType: RightToLeftFadedTransition()));
   }
 
 
-  //개체
+  //개체 화면으로 이동
   Future<void> goToIndividual() async {
     await Navigator.of(context).push(PageAnimationTransition(page: IndividualPage(), pageAnimationType: RightToLeftFadedTransition()));
   }
 
-
+  // 설정 화면으로 이동
   Future<void> goToSetting() async {
     Map<String,dynamic> results = await Navigator.of(context).push(PageAnimationTransition(page: SettingPage(user: mUser.value), pageAnimationType: RightToLeftFadedTransition()));
 
@@ -836,11 +830,20 @@ class _MainPageState extends State<MainPage> with CommonMainWidget, WidgetsBindi
               ),
           )
         ),
-        title: Image.asset(
-          "assets/image/handon_600wT.png",
-          width: CustomStyle.getWidth(85.0),
-          height: CustomStyle.getHeight(50.0),
-        ),
+        title: Row(
+          children: [
+            Image.asset(
+              "assets/image/handon_logoT.png",
+              width: CustomStyle.getWidth(28.0),
+              height: CustomStyle.getHeight(28.0),
+            ),
+            Image.asset(
+              "assets/image/handon_600wT.png",
+              width: CustomStyle.getWidth(85.0),
+              height: CustomStyle.getHeight(50.0),
+            ),
+          ],
+        )
       ),
         drawer: getAppBarMenu(),
       body: Container(

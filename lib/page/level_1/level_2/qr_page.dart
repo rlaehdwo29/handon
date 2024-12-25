@@ -170,6 +170,7 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
         });
       }
     }).catchError((Object obj) async {
+      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
       await pr?.hide();
       switch(obj.runtimeType) {
         case DioError:
@@ -197,6 +198,7 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
       }
 
     }).catchError((Object obj) async {
+      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
       switch(obj.runtimeType) {
         case DioError:
           final res = (obj as DioError).response;

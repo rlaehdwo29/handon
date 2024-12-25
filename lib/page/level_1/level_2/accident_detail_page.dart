@@ -1688,6 +1688,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
         mBreedList.value = _response.breed_list??List.empty(growable: true);
       }
     }).catchError((Object obj) async {
+      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
       await pr?.hide();
       switch(obj.runtimeType) {
         case DioError:

@@ -1,16 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:handon_project/common/config_url.dart';
 import 'package:handon_project/constants/const.dart';
 import 'package:handon_project/utils/sp.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
 
 class Strings {
   Strings(this.locale);
@@ -27,27 +24,24 @@ class Strings {
     try {
       Directory directory = await getApplicationDocumentsDirectory();
       String filePath = '${directory.path}/assets/translations/$value.json';
-      // File 객체로 데이터 읽기
       File file = File(filePath);
 
-        await createLocale();
+      await createLocale();
 
-        String data = await file.readAsString();
-        Map<String, dynamic> _result = json.decode(data);
+      String data = await file.readAsString();
+      Map<String, dynamic> _result = json.decode(data);
 
-        _strings = Map();
-        _result.forEach((String key, dynamic value) {
-          _strings?[key] = value.toString();
-        });
+      _strings = Map();
+      _result.forEach((String key, dynamic value) {
+        _strings?[key] = value.toString();
+      });
 
-        return true;
+      return true;
     } catch (e) {
       print('로드 중 오류 발생(S): $e');
       return false;
     }
   }
-
-
 
   String? get(String key) {
     return _strings?[key];
@@ -66,14 +60,13 @@ class Strings {
         var old_version = await SP.getString(item == "ne" ? Const.CD_NE_VERSION : item == "my" ? Const.CD_MY_VERSION : item == "km" ? Const.CD_KM_VERSION : Const.CD_KO_VERSION, "0");
         var old2_version = int.parse(old_version??"0");
 
-        //Directory currentDirectory = Directory.current;
         Directory directory = await getApplicationDocumentsDirectory();
         String filePath = '${directory.path}/assets/translations/$item.json';
 
-        // 디렉토리와 파일 생성
         File file = File(filePath);
 
         if (!await file.exists()) {
+          // 파일이 존재하지 않으면 생성 후 Version 데이터 추가
           await file.create(recursive: true);
           await SP.putString(item == "ne" ? Const.CD_NE_VERSION : item == "my" ? Const.CD_MY_VERSION : item == "km" ? Const.CD_KM_VERSION : Const.CD_KO_VERSION, data["version"]);
           data.remove("version");
@@ -82,6 +75,7 @@ class Strings {
           await file.writeAsString(jsonString);
           //print('JSON 파일이 생성되었습니다: $filePath');
         }else{
+          // 저장되어 있는 버전과 API 버전을 비교해서 저장되어있던 버전이 API버전보다 낮으면 기존파일 삭제 후 재생성
           if(old2_version < server_version) {
             await file.delete();
             await file.create(recursive: true);

@@ -1682,6 +1682,7 @@ class _ManagePageState extends State<ManagePage> {
         p_wean_count.value = 0;
       }
     }).catchError((Object obj) async {
+      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
       await pr?.hide();
       switch(obj.runtimeType) {
         case DioError:

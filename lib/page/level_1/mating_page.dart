@@ -477,7 +477,7 @@ class _MatingPageState extends State<MatingPage> {
                                             rowHeight: MediaQuery.of(context).size.width * MediaQuery.of(context).devicePixelRatio > 1500 ? CustomStyle.getHeight(30.h) : CustomStyle.getHeight(45.h),
                                             locale: language.value == "ko" ? 'ko_KR' : language.value == "ne" ? "ne_NE" : language.value == "my" ? "my_MY" : "km_KM",
                                             firstDay: DateTime.utc(2010, 1, 1),
-                                            lastDay: DateTime.utc(DateTime.now().year + 10, DateTime.now().month, DateTime.now().day),
+                                            lastDay: DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day),
                                             daysOfWeekHeight: language.value == "ko" ? 32 * MediaQuery.of(context).textScaleFactor : 60 * MediaQuery.of(context).textScaleFactor,
                                             headerStyle: HeaderStyle(
                                               // default로 설정 돼 있는 2 weeks 버튼을 없애줌 (아마 2주단위로 보기 버튼인듯?)
@@ -558,11 +558,9 @@ class _MatingPageState extends State<MatingPage> {
 
                                             calendarFormat: _calendarFormat,
                                             onDaySelected: (selectedDay, focusedDay) {
-                                              if (!isSameDay(tempSelectedDay, selectedDay)) {
                                                 setState(() {
                                                   tempSelectedDay = selectedDay;
                                                 });
-                                              }
                                             },
 
                                             onFormatChanged: (format) {
@@ -768,10 +766,12 @@ class _MatingPageState extends State<MatingPage> {
    * Start Function
    */
 
-  Future<void> goToAccident() async {
+  // 관리 페이지로 이동
+  Future<void> goToManage() async {
     await Navigator.of(context).push(PageAnimationTransition(page: ManagePage(code: "mate"), pageAnimationType: RightToLeftFadedTransition()));
   }
 
+  // QR 페이지로 이동
   Future<void> goToQRPage() async {
     Map<String,dynamic> results = await Navigator.of(context).push(PageAnimationTransition(page: QRPage(code: "mate"), pageAnimationType: RightToLeftFadedTransition()));
 
@@ -788,6 +788,7 @@ class _MatingPageState extends State<MatingPage> {
         } else {
           // 중복이 아닌 경우에만 추가
           selectSowList.add(results["selectItem"]);
+          // 선택된 값을 찾아가기 위한 Scroll
           scrollController.scrollToIndex(
             _index,
             duration: const Duration(milliseconds: 1000),
@@ -800,6 +801,7 @@ class _MatingPageState extends State<MatingPage> {
     }
   }
 
+  // 교배 목록 List 가져오기
   Future<void> getSowList() async {
     Logger logger = Logger();
     await pr?.show();
@@ -814,6 +816,7 @@ class _MatingPageState extends State<MatingPage> {
         mList.value = List.empty(growable: true);
       }
     }).catchError((Object obj) async {
+      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
       await pr?.hide();
       switch(obj.runtimeType) {
         case DioError:
@@ -827,23 +830,21 @@ class _MatingPageState extends State<MatingPage> {
     });
   }
 
-  Future<void> saveSow(SowModel sow) async {
+  Future<Map<String,dynamic>> saveSow(SowModel sow) async {
     Logger logger = Logger();
-    await pr?.show();
+    Map<String,dynamic> result = {};
     await DioService.dioClient(header: true).saveSow(mUser.value.access_key, "mate_insert", "K", mUser.value.user_id, mUser.value.last_farm_no,Util.getDate(mCalendarNowDate.value), sow.mother_no ).then((it) async {
-      await pr?.hide();
       ReturnMap _response = DioService.dioResponse(it);
       logger.i("saveSow() Response => ${_response.error}");
       if(_response.error?["error_code"] == null || _response.error?["error_code"] == "") {
-        Util.toast("교배가 저장되었습니다.");
-        await getSowList();
-        selectSowList.value = List.empty(growable: true);
+        result = {"result":true, "message": ""};
       }else{
-        Util.toast("${_response.error?["error_code"]} : ${_response.error?["message"]}");
+        //Util.toast("${_response.error?["error_code"]} : ${_response.error?["message"]}");
+        result = {"result":false, "message": "모돈번호: ${sow.pig_coupon}\n(${_response.error?["error_code"]}) ${_response.error?["message"]}"};
       }
 
     }).catchError((Object obj) async {
-      await pr?.hide();
+      result = {"result":false, "message": "모돈번호: ${sow.pig_coupon}:\n${context.read<MenuProvider>().translate('msg_server_connection_issue')}"};
       switch(obj.runtimeType) {
         case DioError:
           final res = (obj as DioError).response;
@@ -854,6 +855,7 @@ class _MatingPageState extends State<MatingPage> {
           break;
       }
     });
+    return result;
   }
 
   Future<void> getSearchSow() async {
@@ -866,6 +868,7 @@ class _MatingPageState extends State<MatingPage> {
       List<SowModel>? sow = _response.sow_list;
       openListDialog(this.context, sow??List.empty(growable: true));
     }).catchError((Object obj) async {
+      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
       await pr?.hide();
       switch(obj.runtimeType) {
         case DioError:
@@ -979,62 +982,97 @@ class _MatingPageState extends State<MatingPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
-                    flex: 1,
-                    child: Container(
-                            //height: CustomStyle.getHeight(60.h),
-                            child: Stack(
-                              alignment: Alignment.center,
-                                children: [
-                                  Positioned(
-                                    bottom: 10,
-                                    child: InkWell(
-                                      onTap: () async {
-                                            if(selectSowList.length > 0) {
-                                               for(var item in selectSowList) {
-                                                 await saveSow(item);
-                                               }
-                                            }else{
-                                              Util.toast((context.read<MenuProvider>().translate('msg_select_save_mother')));
-                                            }
-                                      },
-                                        child: Container(
-                                          width:  MediaQuery.sizeOf(context).width * 0.5,
-                                          height: CustomStyle.getHeight(50.h),
-                                          alignment: Alignment.center,
-                                          decoration: const BoxDecoration(color: main_color),
-                                          padding: EdgeInsets.symmetric(horizontal: CustomStyle.getWidth(20)),
-                                          child: Consumer<MenuProvider>(
-                                              builder: (context, menuProvider, child) {
-                                                return Obx(() => Text(
-                                                  menuProvider.translate('mate_save'),
-                                                  maxLines: 1,
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize18 : styleFontSize12, Colors.white),
-                                                ));
-                                              }),
+                  Expanded(
+                      flex: 1,
+                      child: Stack(alignment: Alignment.center, children: [
+                        Positioned(
+                            bottom: 10,
+                            child: InkWell(
+                                onTap: () async {
+
+                                  if (selectSowList.isNotEmpty) {
+                                    bool _isLoading = false;
+                                    double _progress = 0.0;
+                                    int total = selectSowList.length;
+                                    int count = 0;
+                                    int completed = 0;
+                                    int failed = 0;
+                                    String failReason = "";
+
+                                    // Progress 상태를 관리하는 변수
+                                    setState(() {
+                                      _isLoading = true;
+                                      _progress = 0;
+                                    });
+
+                                    await Future.forEach(selectSowList, (item) async {
+                                      Map<String,dynamic> result = await saveSow(item);
+                                      if(result["result"] == true) {
+                                        completed++;
+                                      }else{
+                                        failed++;
+                                        failReason += "${result["message"]}\n";
+                                      }
+                                      count++;
+
+                                      // Progress 상태 업데이트
+                                      setState(() {
+                                        _progress = count / total;
+                                      });
+                                    });
+
+                                    setState(() {
+                                      _isLoading = false;
+                                      if(failed > 0) {
+                                        openOkBox(context,"Save Failed!!\n\n${failReason}",context.read<MenuProvider>().translate('confirm'), () {
+                                          Navigator.of(context).pop(false);
+                                        });
+                                        if(completed > 0) {
+                                          Util.toast(context.read<MenuProvider>().translate('msg_success_save_mating'));
+                                        }
+                                      }else{
+                                        Util.toast(context.read<MenuProvider>().translate('msg_success_save_mating'));
+                                      }
+                                      getSowList();
+                                      selectSowList.value = List.empty(growable: true);
+                                    });
+                                  } else {
+                                    Util.toast((context.read<MenuProvider>().translate('msg_select_save_mother')));
+                                  }
+                                },
+                                child: Container(
+                                  width: MediaQuery.sizeOf(context).width * 0.5,
+                                  height: CustomStyle.getHeight(50.h),
+                                  alignment: Alignment.center,
+                                  decoration: const BoxDecoration(color: main_color),
+                                  padding: EdgeInsets.symmetric(horizontal: CustomStyle.getWidth(20)),
+                                  child: Consumer<MenuProvider>(builder: (context, menuProvider, child) {
+                                    return Obx(() => Text(
+                                          menuProvider.translate('mate_save'),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize18 : styleFontSize12, Colors.white),
                                         )
-                                    )
-                                  ),
-                                  Positioned(
-                                      bottom:10,
-                                      right: 10,
-                                      child: InkWell(
-                                        onTap: (){
-                                          goToAccident();
-                                        },
-                                          child: const Icon(
-                                            Icons.list_alt,
-                                            size: 48,
-                                            color: main_color,
-                                          )
-                                      )
-                                  ),
-                                ]
+                                    );
+                                  }),
+                                )
                             )
-                    )
-                ),
-              ],
+                        ),
+                        Positioned(
+                            bottom: 10,
+                            right: 10,
+                            child: InkWell(
+                                onTap: () {
+                                  goToManage();
+                                },
+                                child: const Icon(
+                                  Icons.list_alt,
+                                  size: 48,
+                                  color: main_color,
+                                ))),
+                      ])
+                  ),
+                ],
             )),
       )
     );

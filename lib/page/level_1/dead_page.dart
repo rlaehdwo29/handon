@@ -605,7 +605,7 @@ class _DeadPageState extends State<DeadPage> {
                                             rowHeight: MediaQuery.of(context).size.width * MediaQuery.of(context).devicePixelRatio > 1500 ? CustomStyle.getHeight(30.h) : CustomStyle.getHeight(45.h),
                                             locale: language.value == "ko" ? 'ko_KR' : language.value == "ne" ? "ne_NE" : language.value == "my" ? "my_MY" : "km_KM",
                                             firstDay: DateTime.utc(2010, 1, 1),
-                                            lastDay: DateTime.utc(DateTime.now().year + 10, DateTime.now().month, DateTime.now().day),
+                                            lastDay: DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day),
                                             daysOfWeekHeight: language.value == "ko" ? 32 * MediaQuery.of(context).textScaleFactor : 60 * MediaQuery.of(context).textScaleFactor,
                                             headerStyle: HeaderStyle(
                                               // default로 설정 돼 있는 2 weeks 버튼을 없애줌 (아마 2주단위로 보기 버튼인듯?)
@@ -687,11 +687,9 @@ class _DeadPageState extends State<DeadPage> {
 
                                             calendarFormat: _calendarFormat,
                                             onDaySelected: (selectedDay, focusedDay) {
-                                              if (!isSameDay(tempSelectedDay, selectedDay)) {
                                                 setState(() {
                                                   tempSelectedDay = selectedDay;
                                                 });
-                                              }
                                             },
 
                                             onFormatChanged: (format) {
@@ -935,6 +933,7 @@ class _DeadPageState extends State<DeadPage> {
         mList.value = List.empty(growable: true);
       }
     }).catchError((Object obj) async {
+      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
       await pr?.hide();
       switch(obj.runtimeType) {
         case DioError:
@@ -966,6 +965,7 @@ class _DeadPageState extends State<DeadPage> {
         }
       }
     }).catchError((Object obj) async {
+      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
       switch(obj.runtimeType) {
         case DioError:
           final res = (obj as DioError).response;
@@ -995,6 +995,7 @@ class _DeadPageState extends State<DeadPage> {
       }
 
     }).catchError((Object obj) async {
+      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
       await pr?.hide();
       switch(obj.runtimeType) {
         case DioError:
@@ -1018,6 +1019,7 @@ class _DeadPageState extends State<DeadPage> {
       List<SowModel>? sow = _response.sow_list;
       openListDialog(this.context, sow);
     }).catchError((Object obj) async {
+      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
       await pr?.hide();
       switch(obj.runtimeType) {
         case DioError:
