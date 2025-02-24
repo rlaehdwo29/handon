@@ -38,7 +38,7 @@ class _WeanPageState extends State<WeanPage> {
   final mList = List.empty(growable: true).obs;
   final selectSowList = <SowModel>[].obs;
   final mUser = UserModel().obs;
-  final language = "my".obs;
+  final language = "my".obs; // ko: 한국어(Default), ne: 네팔어, my: 미얀마어, km: 캄보디아어
 
   late TextEditingController sowNumController;
   final List<TextEditingController> weanControllers = []; //포유폐사 Edit List
@@ -104,7 +104,7 @@ class _WeanPageState extends State<WeanPage> {
                         return FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              menuProvider.translate('mother_no'),
+                              menuProvider.translate('mother_no'),    // <다국어> 모돈번호
                               style: CustomStyle.CustomFont(
                                   language.value == "ko" ? styleFontSize14 : styleFontSize12, Colors.black),
                             ));
@@ -182,7 +182,7 @@ class _WeanPageState extends State<WeanPage> {
                 ]),
             InkWell(
               onTap: (){
-                goToQRPage();
+                goToQRPage();   // QR코드 페이지 이동
               },
               child: const Icon(
                 Icons.qr_code,
@@ -836,10 +836,16 @@ class _WeanPageState extends State<WeanPage> {
    * Start Function
    */
 
+  /*
+   * 이유 관리 페이지 이동 Function
+   */
   Future<void> goToAccident() async {
     await Navigator.of(context).push(PageAnimationTransition(page: ManagePage(code: "wean"), pageAnimationType: RightToLeftFadedTransition()));
   }
 
+  /**
+   * QR코드 인식 페이지 이동 Function
+   */
   Future<void> goToQRPage() async {
     Map<String,dynamic> results = await Navigator.of(context).push(PageAnimationTransition(page: QRPage(code: "wean"), pageAnimationType: RightToLeftFadedTransition()));
 
@@ -850,9 +856,9 @@ class _WeanPageState extends State<WeanPage> {
         bool isAlreadyAdded = selectSowList.any((item) => item.mother_no == results["selectItem"].mother_no);
 
         if (_index < 0) {
-          Util.toast((context.read<MenuProvider>().translate('msg_not_match_mother_no')));
+          Util.toast((context.read<MenuProvider>().translate('msg_not_match_mother_no')));    // <다국어> 일치하는 모돈 번호가 없습니다.
         } else if (isAlreadyAdded) {
-          Util.toast(context.read<MenuProvider>().translate('msg_validation'));
+          Util.toast(context.read<MenuProvider>().translate('msg_validation'));   // <다국어> 이미 선택된 모돈입니다.
         } else {
           // 중복이 아닌 경우에만 추가
           selectSowList.add(results["selectItem"]);
@@ -868,6 +874,10 @@ class _WeanPageState extends State<WeanPage> {
       }
     }
   }
+
+  /*
+   * 이유 List API
+   */
   Future<void> getWeanList() async {
     Logger logger = Logger();
     await pr?.show();
@@ -896,6 +906,9 @@ class _WeanPageState extends State<WeanPage> {
     });
   }
 
+  /**
+   * 모돈번호 검색 API
+   */
   Future<void> getSearchSow() async {
     Logger logger = Logger();
     await pr?.show();
@@ -920,6 +933,9 @@ class _WeanPageState extends State<WeanPage> {
     });
   }
 
+  /**
+   * 이유 저장 Function
+   */
   Future<Map<String,dynamic>> saveSow(int _index, SowModel sow) async {
     Logger logger = Logger();
     Map<String,dynamic> result = {};
@@ -1052,7 +1068,7 @@ class _WeanPageState extends State<WeanPage> {
                 return FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
-                      menuProvider.translate('wean_manager'),
+                      menuProvider.translate('wean_manager'),   // <다국어> 이유관리
                       style: CustomStyle.CustomFont(styleFontSize18, Colors.white),
                     ));
               }),
@@ -1081,7 +1097,7 @@ class _WeanPageState extends State<WeanPage> {
                                 child: Consumer<MenuProvider>(
                                     builder: (context, menuProvider, child) {
                                       return Obx(() => Text(
-                                            menuProvider.translate('wean_date'),
+                                            menuProvider.translate('wean_date'),  // <다국어> 이유일자
                                             style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize16 : styleFontSize12, Colors.black),
                                           ));
                                     }),
@@ -1111,6 +1127,7 @@ class _WeanPageState extends State<WeanPage> {
             ));
           }),
         ),
+        // 화면 Footer Widget
         bottomNavigationBar: SizedBox(
             height: CustomStyle.getHeight(60.0.h),
             child: Row(
@@ -1145,6 +1162,7 @@ class _WeanPageState extends State<WeanPage> {
                                             _progress = 0;
                                           });
 
+                                          // 선택된 이유 리스트들을 순차적으로 저장
                                           await Future.forEach(selectSowList, (item) async {
                                             Map<String,dynamic> result = await saveSow(count,item);
                                             if(result["result"] == true) {
@@ -1167,15 +1185,15 @@ class _WeanPageState extends State<WeanPage> {
                                                 Navigator.of(context).pop(false);
                                               });
                                               if(completed > 0) {
-                                                Util.toast(context.read<MenuProvider>().translate('msg_success_save_wean'));
+                                                Util.toast(context.read<MenuProvider>().translate('msg_success_save_wean'));  // <다국어> 이유가 저장되었습니다.
                                               }
                                             }else{
-                                              Util.toast(context.read<MenuProvider>().translate('msg_success_save_wean'));
+                                              Util.toast(context.read<MenuProvider>().translate('msg_success_save_wean'));    //<다국어> 이유가 저장되었습니다.
                                             }
                                             selectSowList.value = List.empty(growable: true);
                                           });
                                         } else {
-                                          Util.toast((context.read<MenuProvider>().translate('msg_select_save_wean')));
+                                          Util.toast((context.read<MenuProvider>().translate('msg_select_save_wean'))); // <다국어> 이유가 저장되었습니다.
                                         }
                                       },
                                         child: Container(
@@ -1187,7 +1205,7 @@ class _WeanPageState extends State<WeanPage> {
                                         child: Consumer<MenuProvider>(
                                             builder: (context, menuProvider, child) {
                                               return Obx(() => Text(
-                                                    menuProvider.translate('wean_save'),
+                                                    menuProvider.translate('wean_save'),    // <다국어> 이유저장
                                                     style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize18 : styleFontSize12, Colors.white),
                                                   ));
                                             }),
@@ -1199,7 +1217,7 @@ class _WeanPageState extends State<WeanPage> {
                                       right: 10,
                                       child: InkWell(
                                         onTap: (){
-                                          goToAccident();
+                                          goToAccident(); // 이유기록 페이지 이동
                                         },
                                           child: const Icon(
                                             Icons.list_alt,

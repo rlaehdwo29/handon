@@ -47,7 +47,7 @@ class _AccidentPageState extends State<AccidentPage> {
   final laction_cnt = "0".obs;
   final accident_code = List.empty(growable: true).obs;
   final select_accident_code = CodeModel().obs;
-  final language = "my".obs;
+  final language = "my".obs;  // ko: 한국어(Default), ne: 네팔어, my: 미얀마어, km: 캄보디아어
 
   @override
   void initState() {
@@ -89,7 +89,7 @@ class _AccidentPageState extends State<AccidentPage> {
                         return FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              menuProvider.translate('mother_no'),
+                              menuProvider.translate('mother_no'),    // <다국어> 모돈번호
                               style: CustomStyle.CustomFont(
                                   language.value == "ko" ? styleFontSize14 : styleFontSize12, Colors.black),
                             ));
@@ -120,7 +120,7 @@ class _AccidentPageState extends State<AccidentPage> {
                           ),
                           suffixIcon: IconButton(
                             onPressed: () async {
-                              await getSearchSow();
+                              await getSearchSow();     // 임신사고 모돈조회 API
                               FocusManager.instance.primaryFocus?.unfocus();
                             },
                             icon: Icon(
@@ -163,7 +163,7 @@ class _AccidentPageState extends State<AccidentPage> {
                 ]),
             InkWell(
                 onTap: (){
-                  goToQRPage();
+                  goToQRPage();     // QR 페이지로 이동
                 },
                 child: const Icon(
                   Icons.qr_code,
@@ -175,7 +175,7 @@ class _AccidentPageState extends State<AccidentPage> {
       );
     }
 
-    // List
+  // 조회된 임신사고 선택모돈 List
   Widget workList() {
     return Container(
         margin: EdgeInsets.symmetric(vertical: CustomStyle.getHeight(40)),
@@ -192,7 +192,7 @@ class _AccidentPageState extends State<AccidentPage> {
                       return FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Text(
-                            "${menuProvider.translate('accident_selectmother')}",
+                            "${menuProvider.translate('accident_selectmother')}",     //   <다국어> 임신사고선택모돈
                             style: CustomStyle.CustomFont(
                                 language.value == "ko" ? styleFontSize16 : styleFontSize12, Colors.black),
                           ));
@@ -226,7 +226,7 @@ class _AccidentPageState extends State<AccidentPage> {
                   child: Consumer<MenuProvider>(
                       builder: (context, menuProvider, child) {
                         return Text(
-                          menuProvider.translate('now_parity'),
+                          menuProvider.translate('now_parity'),       // <다국어> 현재산차
                           softWrap: true,
                           textAlign: TextAlign.center,
                           style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.white),
@@ -238,7 +238,7 @@ class _AccidentPageState extends State<AccidentPage> {
                   child: Consumer<MenuProvider>(
                       builder: (context, menuProvider, child) {
                         return Text(
-                          menuProvider.translate('birth'),
+                          menuProvider.translate('birth'),        // <다국어> 생년월일
                           softWrap: true,
                           textAlign: TextAlign.center,
                           style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.white),
@@ -250,7 +250,7 @@ class _AccidentPageState extends State<AccidentPage> {
                   child: Consumer<MenuProvider>(
                       builder: (context, menuProvider, child) {
                         return Text(
-                          menuProvider.translate('pig_status'),
+                          menuProvider.translate('pig_status'),       // <다국어> 현재상태
                           softWrap: true,
                           textAlign: TextAlign.center,
                           style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.white),
@@ -262,7 +262,7 @@ class _AccidentPageState extends State<AccidentPage> {
                   child: Consumer<MenuProvider>(
                       builder: (context, menuProvider, child) {
                         return Text(
-                          menuProvider.translate('last_work_date'),
+                          menuProvider.translate('last_work_date'),     // <다국어> 최종작업일
                           softWrap: true,
                           textAlign: TextAlign.center,
                           style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.white),
@@ -359,6 +359,7 @@ class _AccidentPageState extends State<AccidentPage> {
     );
   }
 
+  // 임신사고입력 Widget
   Widget workWriteWidget() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -371,7 +372,7 @@ class _AccidentPageState extends State<AccidentPage> {
               Consumer<MenuProvider>(
                   builder: (context, menuProvider, child) {
                     return Text(
-                      menuProvider.translate('write_accident'),
+                      menuProvider.translate('write_accident'),       // <다국어> 임신사고입력
                       softWrap: true,
                       textAlign: TextAlign.center,
                       style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize18 : styleFontSize14, Colors.black),
@@ -401,7 +402,7 @@ class _AccidentPageState extends State<AccidentPage> {
                                 return Container(
                                   width: CustomStyle.getWidth(110),
                                     child: Text(
-                                  menuProvider.translate('accident_state'),
+                                  menuProvider.translate('accident_state'),    // <다국어> 사고유형
                                   softWrap: true,
                                   textAlign: TextAlign.center,
                                   style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize14 : styleFontSize12, Colors.black),
@@ -664,7 +665,7 @@ class _AccidentPageState extends State<AccidentPage> {
                                         return FittedBox(
                                             fit: BoxFit.scaleDown,
                                             child: Text(
-                                              menuProvider.translate('mother_no'),
+                                              menuProvider.translate('mother_no'),      // <다국어> 모돈번호
                                               style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize15 : styleFontSize12, Colors.black,font_weight: FontWeight.w800),
                                             ));
                                       }),
@@ -676,7 +677,7 @@ class _AccidentPageState extends State<AccidentPage> {
                                         return FittedBox(
                                             fit: BoxFit.scaleDown,
                                             child: Text(
-                                              menuProvider.translate('parity'),
+                                              menuProvider.translate('parity'),       // <다국어> 산차
                                               style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize15 : styleFontSize12, Colors.black,font_weight: FontWeight.w800),
                                             ));
                                       }),
@@ -688,7 +689,7 @@ class _AccidentPageState extends State<AccidentPage> {
                                         return FittedBox(
                                             fit: BoxFit.scaleDown,
                                             child: Text(
-                                              menuProvider.translate('pig_status'),
+                                              menuProvider.translate('pig_status'),     // <다국어> 현재상태
                                               style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize15 : styleFontSize12, Colors.black,font_weight: FontWeight.w800),
                                             ));
                                       }),
@@ -697,7 +698,7 @@ class _AccidentPageState extends State<AccidentPage> {
                           )
                         ],
                       )),
-                  content:  Container(
+                  content:  SizedBox(
                     width: double.maxFinite, // 최대 가로 크기 설정
                     height: MediaQueryData.fromView(WidgetsBinding.instance.window).size.height * 0.5,
                     child: ListView.builder(
@@ -770,11 +771,12 @@ class _AccidentPageState extends State<AccidentPage> {
    * Start Function
    */
 
+  // 임신사고 관리 페이지로 이동
   Future<void> goToAccident() async {
     await Navigator.of(context).push(PageAnimationTransition(page: ManagePage(code: "accident",), pageAnimationType: RightToLeftFadedTransition()));
   }
 
-
+  // QR 코드 페이지로 이동.
   Future<void> goToQRPage() async {
     Map<String,dynamic> results = await Navigator.of(context).push(PageAnimationTransition(page: QRPage(code: "accident"), pageAnimationType: RightToLeftFadedTransition()));
 
@@ -783,7 +785,7 @@ class _AccidentPageState extends State<AccidentPage> {
         print("goToQRPage() -> ${results["selectItem"]}");
         int _index = mList.indexWhere((element) => element.mother_no == results["selectItem"].mother_no);
         if(_index < 0) {
-          Util.toast((context.read<MenuProvider>().translate('msg_not_match_mother_no')));
+          Util.toast((context.read<MenuProvider>().translate('msg_not_match_mother_no')));    // <다국어> 일치하는 모돈 번호가 없습니다.
         }else {
           selectSowModel.value = results["selectItem"];
         }
@@ -796,7 +798,7 @@ class _AccidentPageState extends State<AccidentPage> {
     laction_cnt.value = "0";
   }
 
-
+  //
   Future<void> getSowList() async {
     Logger logger = Logger();
     await pr?.show();
@@ -850,6 +852,7 @@ class _AccidentPageState extends State<AccidentPage> {
     });
   }
 
+  // 임신사고저장 API
   Future<void> saveSow() async {
     Logger logger = Logger();
     await pr?.show();
@@ -881,6 +884,7 @@ class _AccidentPageState extends State<AccidentPage> {
     });
   }
 
+  // 임신사고 모돈조회 API
   Future<void> getSearchSow() async {
     Logger logger = Logger();
     await pr?.show();
@@ -889,7 +893,7 @@ class _AccidentPageState extends State<AccidentPage> {
       ReturnSowMap _response = DioService.dioSowResponse(it);
       logger.i("getSearchSow() Response => ${_response.list_count} || ${_response.sow_list}");
       List<SowModel>? sow = _response.sow_list;
-      openListDialog(this.context, sow);
+      openListDialog(this.context, sow);   // 조회한 모돈 List를 Dialog에 띄어주는 Widget
     }).catchError((Object obj) async {
       Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
       await pr?.hide();
@@ -947,9 +951,9 @@ class _AccidentPageState extends State<AccidentPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                workSearchWidget(),
-                workList(),
-                workWriteWidget(),
+                workSearchWidget(),      // 모돈번호 검색 Widget
+                workList(),              // 조회된 임신사고 선택모돈 List
+                workWriteWidget(),       // 임신사고입력 Widget
                 Container(
                     margin: EdgeInsets.only(top: CustomStyle.getHeight(50)),
                     child: Row(
@@ -971,7 +975,7 @@ class _AccidentPageState extends State<AccidentPage> {
                         ),
                         InkWell(
                             onTap: () {
-                              openCalendarDialog();
+                              openCalendarDialog();     // 임신사고일 선택하는 날짜 Widet
                               },
                             child: Container(
                                 padding: EdgeInsets.symmetric(
@@ -1011,7 +1015,7 @@ class _AccidentPageState extends State<AccidentPage> {
                                     child: InkWell(
                                       onTap: () async {
                                         if(selectSowModel.value.mother_no != null ) {
-                                          await saveSow();
+                                          await saveSow();      // 임신사고저장 API
                                         }else{
                                           Util.toast((context.read<MenuProvider>().translate('msg_select_save_accident')));
                                         }
@@ -1025,7 +1029,7 @@ class _AccidentPageState extends State<AccidentPage> {
                                         child:  Consumer<MenuProvider>(
                                             builder: (context, menuProvider, child) {
                                               return Obx(()=> Text(
-                                                menuProvider.translate('accident_save'),
+                                                menuProvider.translate('accident_save'),      // <다국어> 임신사고저장
                                                 softWrap: true,
                                                 textAlign: TextAlign.center,
                                                 style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize18 : styleFontSize12, Colors.white),
@@ -1039,7 +1043,7 @@ class _AccidentPageState extends State<AccidentPage> {
                                       right: 10,
                                       child: InkWell(
                                         onTap: (){
-                                          goToAccident();
+                                          goToAccident();    // 임신사고 관리 페이지로 이동
                                         },
                                           child: const Icon(
                                             Icons.list_alt,

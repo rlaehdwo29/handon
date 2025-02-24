@@ -7,14 +7,18 @@ import 'package:handon_project/utils/sp.dart';
 
 class App extends GetxController {
   final login_info = UserModel().obs;
-  final language = "my".obs;
+  final language = "my".obs;  // ko: 한국어(Default), ne: 네팔어, my: 미얀마어, km: 캄보디아어
 
+  // 단말기 내부 DB에 언어 데이터 저장
   Future<void> setLanguage(String value) async {
     await SP.putString(Const.CD_LANGUAGE, value);
     language.value = value;
     update();
   }
 
+  /**
+   * 내부 DB 세팅된 언어 가져오기(Default: 한국어)
+   */
   Future<String> getLanguage() async {
     String? val = await SP.getString(Const.CD_LANGUAGE,"ko");
     language.value = val??"ko";

@@ -8,6 +8,7 @@ class StringLocaleDelegate extends LocalizationsDelegate<Strings> {
 @override
 bool isSupported(Locale locale) => ['ko', 'ne', 'my' , 'km'].contains(locale.languageCode);
 
+// 파일로 되어 있는 언어를 읽어 세팅
 @override
 Future<Strings> load(Locale locale) async {
   Strings _strings = Strings(locale);

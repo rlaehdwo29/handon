@@ -35,8 +35,8 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
   final userID = "".obs;
   final userPW = "".obs;
   final checkLanguage = "ko".obs;   // ko: 한국어(Default), ne: 네팔어, my: 미얀마어, km: 캄보디아어
-  final autoLogin = true.obs;
-  final saveId = true.obs;
+  final autoLogin = true.obs;       // 자동 로그인 유무
+  final saveId = true.obs;          // ID 저장 유무
   late TextEditingController userIdController;
 
 
@@ -45,17 +45,17 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
     super.initState();
     userIdController = TextEditingController();
     Future.delayed(Duration.zero, () async {
-      bool auto = await SP.getBoolean(Const.CD_USER_AUTO);
-      bool saveId = await SP.getBoolean(Const.CD_SAVE_ID);
-      checkLanguage.value = await controller.getLanguage();
-      changeLanguage(context, checkLanguage.value);
-      if(auto) {
+      bool auto = await SP.getBoolean(Const.CD_USER_AUTO);    // 단말기 DB 내 저장된 "자동로그인" 데이터 세팅
+      bool saveId = await SP.getBoolean(Const.CD_SAVE_ID);    // 단말기 DB 내 저장된 "아이디 저장" 데이터 세팅
+      checkLanguage.value = await controller.getLanguage();   // 단말기 Db 내 저장된 언어 가져오기
+      changeLanguage(context, checkLanguage.value);           // 앱 언어 세팅 Function
+      if(auto) {  // 자동로그인이 체크퇴어 있으면 저장된 ID,PW 값으로 로그인
         String? uId = await SP.getString(Const.CD_USER_ID, "");
         String? uPw = await SP.getString(Const.CD_USER_PW, "");
         userID.value = uId??"";
         userPW.value = uPw??"";
-        await goLogin();
-      } else if(saveId) {
+        await goLogin();    // 로그인 처리 API
+      } else if(saveId) {   // save ID가 저장되어 있으면 Id TextField에 삽입.
         String? uId = await SP.getString(Const.CD_USER_ID, "");
         userID.value = uId??"";
         userIdController.text = userID.value;
@@ -68,6 +68,7 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
    * Widget Start
    */
 
+  // 상단 Banner Widget
   Widget topSubBanner() {
     return Container(
         color: const Color(0xff0a4db1),
@@ -84,11 +85,10 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
                 Consumer<MenuProvider>(
                     builder: (context, menuProvider, child) {
                       return Text(
-                          menuProvider.translate('handon_center'),
+                          menuProvider.translate('handon_center'), // <다국어> 한돈전산센터
                           maxLines: 1, // 한 줄로 제한
                           overflow: TextOverflow.ellipsis,
-                          style: CustomStyle.CustomFont(
-                              checkLanguage.value == "00" ? styleFontSize14 : styleFontSize11, Colors.white),
+                          style: CustomStyle.CustomFont(checkLanguage.value == "00" ? styleFontSize14 : styleFontSize11, Colors.white),
                       );
                     }),
                 Container(
@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
                     Consumer<MenuProvider>(
                         builder: (context, menuProvider, child) {
                           return Text(
-                              menuProvider.translate('qna'),
+                              menuProvider.translate('qna'),  // <다국어> 문의사항
                               style: CustomStyle.CustomFont(
                                   checkLanguage.value == "00" ? styleFontSize14 : styleFontSize11, Colors.white)
                           );
@@ -138,11 +138,12 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  // 한국어 Button
                   InkWell(
                       onTap: () async {
                         checkLanguage.value = "ko";
-                        changeLanguage(context, 'ko');
-                        controller.setLanguage(checkLanguage.value);
+                        changeLanguage(context, 'ko');    // 앱 언어 세팅 Function
+                        controller.setLanguage(checkLanguage.value);    // 단말기 내부 DB에 언어 데이터 저장
                         setState(() {});
                       },
                       child: Obx(() => Container(
@@ -160,13 +161,13 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
                       )
                     )
                   ),
+                  // 네팔어 Button
                   InkWell(
                       onTap: () async {
                         checkLanguage.value = "ne";
-                        changeLanguage(context, 'ne');
-                        controller.setLanguage(checkLanguage.value);
-                        setState(() {
-                        });
+                        changeLanguage(context, 'ne');    // 앱 언어 세팅 Function
+                        controller.setLanguage(checkLanguage.value);    // 단말기 내부 DB에 언어 데이터 저장
+                        setState(() {});
                       },
                       child: Obx(() => Container(
                         decoration: checkLanguage.value == "ne" ? BoxDecoration(
@@ -183,11 +184,12 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
                       )
                     )
                   ),
+                  // 미얀마어 Button
                   InkWell(
                       onTap: () async {
                         checkLanguage.value = "my";
-                        changeLanguage(context, 'my');
-                        controller.setLanguage(checkLanguage.value);
+                        changeLanguage(context, 'my');    // 앱 언어 세팅 Function
+                        controller.setLanguage(checkLanguage.value);    // 단말기 내부 DB에 언어 데이터 저장
                         setState(() {});
                       },
                       child: Obx(() => Container(
@@ -205,11 +207,12 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
                       )
                       )
                   ),
+                  // 캄보디아어 Button
                   InkWell(
                       onTap: () async {
                         checkLanguage.value = "km";
-                        changeLanguage(context, 'km');
-                        controller.setLanguage(checkLanguage.value);
+                        changeLanguage(context, 'km');    // 앱 언어 세팅 Function
+                        controller.setLanguage(checkLanguage.value);    // 단말기 내부 DB에 언어 데이터 저장
                         setState(() {});
                       },
                       child: Obx(() => Container(
@@ -231,7 +234,7 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
               )
           ),
           CustomStyle.getDivider2(),
-          // ID TextFeild
+          // 아이디 TextFeild
           Container(
               margin: EdgeInsets.only(bottom: CustomStyle.getHeight(20),top: CustomStyle.getHeight(30)),
               child: Row(
@@ -275,7 +278,7 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
               )
           ),
 
-          // Password TextFeild
+          // 패스워드 TextFeild
           Container(
               margin: EdgeInsets.only(bottom: CustomStyle.getHeight(30)),
               child: Row(
@@ -344,9 +347,8 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
                           Consumer<MenuProvider>(
                           builder: (context, menuProvider, child) {
                             return Text(
-                                menuProvider.translate('login_save_id'),
-                                style: CustomStyle.CustomFont(
-                                    checkLanguage.value == "00" ? styleFontSize14 : styleFontSize10, Colors.black)
+                                menuProvider.translate('login_save_id'), // <다국어> 아이디저장
+                                style: CustomStyle.CustomFont(checkLanguage.value == "00" ? styleFontSize14 : styleFontSize10, Colors.black)
                             );
                           })
                         ],
@@ -371,7 +373,7 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
                           Consumer<MenuProvider>(
                               builder: (context, menuProvider, child) {
                                 return Text(
-                                    menuProvider.translate('login_auto_save'),
+                                    menuProvider.translate('login_auto_save'),  // <디국어> 자동로그인
                                     style: CustomStyle.CustomFont(checkLanguage.value == "00" ? styleFontSize14 : styleFontSize10, Colors.black)
                                 );
                               })
@@ -389,12 +391,13 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
               minimumSize: const Size.fromHeight(50),
             ),
             onPressed: () async {
-              await goLogin();
+              await goLogin();    // Login Page 이동
             },
             child: Consumer<MenuProvider>(
               builder: (context, menuProvider, child) {
             // 번역된 텍스트를 표시
             return Text(
+              //  <다국어> 로그인
             menuProvider.translate('login_login')?.trim().isEmpty == true ? "로그인" : menuProvider.translate('login_login'),
             style: CustomStyle.CustomFont(styleFontSize18, Colors.white),
             );
@@ -415,6 +418,9 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
    * Funcion Start
    */
 
+  /**
+   * Login 처리 API
+   */
   Future<void> goLogin() async {
     Logger logger = Logger();
     await pr?.show();
@@ -424,22 +430,22 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
       logger.i("goLogin() Response => ${_response.access_key} || ${_response.farm_list}");
       if (_response.access_key != null) {
         await controller.setUserInfo(_response.user_id, _response.login_yn, _response.access_key, _response.user_nm, _response.last_farm_no, _response.last_farm_nm, _response.list_count, _response.farm_list ,autoLogin.value);
-        if(autoLogin.value) {
-          await SP.putString(Const.CD_USER_ID, userID.value);
-          await SP.putString(Const.CD_USER_PW, userPW.value);
-          await SP.putBool(Const.CD_SAVE_ID, saveId.value);
-          await SP.putBool(Const.CD_USER_AUTO, autoLogin.value);
+        if(autoLogin.value) { // 자동로그인 체크 시 자동로그인을 위한 내부 DB에 저장
+          await SP.putString(Const.CD_USER_ID, userID.value);   // 단말기 DB 아이디 저장
+          await SP.putString(Const.CD_USER_PW, userPW.value);   // 단말기 DB 패스워드 저장
+          await SP.putBool(Const.CD_SAVE_ID, saveId.value);     // 단말기 DB 아이디 저장 Check 여부 저장
+          await SP.putBool(Const.CD_USER_AUTO, autoLogin.value);  // 단말기 DB 자동로그인 Check 여부 저장
         }
-        if(saveId.value){
-          await SP.putString(Const.CD_USER_ID, userID.value);
-          await SP.putBool(Const.CD_SAVE_ID, autoLogin.value);
+        if(saveId.value){   // 아이디 저장 시 내부 DB에 데이터 저장
+          await SP.putString(Const.CD_USER_ID, userID.value);   // 단말기 DB 아이디 저장
+          await SP.putBool(Const.CD_SAVE_ID, autoLogin.value);  // 단말기 DB 아이디저장 Check 여부 저장
         }
-        goToMain();
+        goToMain();   // 메인페이지 이동
       } else {
-        Util.toast(context.read<MenuProvider>().translate('msg_no_id'));
+        Util.toast(context.read<MenuProvider>().translate('msg_no_id'));  // <다국어> 계정이 존재하지 않습니다.
       }
     }).catchError((Object obj) async {
-      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
+      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));  // <다국어> 서버연결에 문제가 있습니다.
       await pr?.hide();
       switch(obj.runtimeType) {
       case DioError:
@@ -453,6 +459,9 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
     });
   }
 
+  /**
+   * MainPage 이동 Function
+   */
   void goToMain() {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
@@ -461,8 +470,8 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
   }
 
 
+  // 앱 언어 세팅 Function
   void changeLanguage(BuildContext context, String languageCode) async {
-    //final translations = await MenuProvider.getCode(languageCode);
     context.read<MenuProvider>().loadTranslations(languageCode);
 
     MyApp.setLocale(context, Locale(languageCode));
@@ -493,15 +502,18 @@ class _LoginPageState extends State<LoginPage> with CommonMainWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(
+                      // 배너 이미지
+                      SizedBox(
                         width: MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.width,
                         height: MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.height * 0.35,
                         child: Image.asset(
-                          "assets/image/handon_login_new.png",
+                          "assets/image/img_handon_login_new.png",
                           fit: BoxFit.fill,
                         )
                       ),
+                      // 문의사항 이메일, 전화번호 Widget
                       topSubBanner(),
+                      // 다국어, ID/PW 입력 TextField, 자동로그인, ID저장, 로그인 버튼 Widget
                       bodyWidget()
                     ],
                   )

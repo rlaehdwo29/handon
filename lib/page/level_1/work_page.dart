@@ -36,20 +36,20 @@ class _WorkPageState extends State<WorkPage> {
   final mList = List.empty(growable: true).obs;
   final mUser = UserModel().obs;
   final selectSowModel = SowModel().obs;
-  final language = "my".obs;
+  final language = "my".obs;  // ko: 한국어(Default), ne: 네팔어, my: 미얀마어, km: 캄보디아어
 
   late TextEditingController motherNumController;
   late TextEditingController work1Controller;
   late TextEditingController work2Controller;
   late TextEditingController work3Controller;
   late TextEditingController work4Controller;
-  final List<FocusNode> workFocus = [];
-  final mCalendarNowDate = DateTime.now().obs;
+  final List<FocusNode> workFocus = [];                               // 분만성적입력 TextEdit
+  final mCalendarNowDate = DateTime.now().obs;                        // 분만일자
   CalendarFormat _calendarFormat = CalendarFormat.month;
-  AutoScrollController  scrollController = AutoScrollController();
+  AutoScrollController  scrollController = AutoScrollController();    // 스크롤 제어 Controller
 
-  final total_cnt = "0".obs;
-  final laction_cnt = "0".obs;
+  final total_cnt = "0".obs;                                          // 총산
+  final laction_cnt = "0".obs;                                        // 포유개시
 
   @override
   void initState() {
@@ -67,7 +67,7 @@ class _WorkPageState extends State<WorkPage> {
     Future.delayed(Duration.zero, () async {
       mUser.value = await controller.getUserInfo();
       language.value = await controller.getLanguage();
-      await getSowList();
+      await getSowList();   // 분만예정돈 리스트 API
     });
   }
 
@@ -103,11 +103,10 @@ class _WorkPageState extends State<WorkPage> {
                   Consumer<MenuProvider>(
                       builder: (context, menuProvider, child) {
                         return Text(
-                              menuProvider.translate('mother_no'),
+                              menuProvider.translate('mother_no'),    // <다국어> 모돈번호
                               softWrap: true,
                               textAlign: TextAlign.center,
-                              style: CustomStyle.CustomFont(
-                                  language.value == "ko" ? styleFontSize14 : styleFontSize12, Colors.black),
+                              style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize14 : styleFontSize12, Colors.black),
                             );
                       }),
                   Container(
@@ -136,7 +135,7 @@ class _WorkPageState extends State<WorkPage> {
                           ),
                           suffixIcon: IconButton(
                             onPressed: () async {
-                              await getSearchSow();
+                              await getSearchSow();   // 모돈번호 검색 API
                               FocusManager.instance.primaryFocus?.unfocus();
                             },
                             icon: Icon(
@@ -160,7 +159,7 @@ class _WorkPageState extends State<WorkPage> {
                           ),
                           suffixIcon: IconButton(
                             onPressed: () async {
-                              await getSearchSow();
+                              await getSearchSow();   // 모돈번호 검색 API
                               FocusManager.instance.primaryFocus?.unfocus();
                             },
                             icon: Icon(
@@ -179,7 +178,7 @@ class _WorkPageState extends State<WorkPage> {
                 ]),
             InkWell(
                 onTap: (){
-                  goToQRPage();
+                  goToQRPage();     // QR 페이지 이동
                 },
                 child: const Icon(
                   Icons.qr_code,
@@ -191,7 +190,7 @@ class _WorkPageState extends State<WorkPage> {
       );
     }
 
-    // 분만 List
+    // 분만 List Widget
   Widget workList() {
     return Container(
       decoration: const BoxDecoration(
@@ -216,7 +215,7 @@ class _WorkPageState extends State<WorkPage> {
                               width: language.value == "ko" ? 110 : 130,
                               child: Text(
                                 softWrap: true,
-                                menuProvider.translate('delivery_due_pig'),
+                                menuProvider.translate('delivery_due_pig'),     // <다국어> 분만예정돈
                                 style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize16 : styleFontSize12, Colors.black),
                               )
                       );
@@ -228,7 +227,7 @@ class _WorkPageState extends State<WorkPage> {
                           return FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
-                                menuProvider.translate('total'),
+                                menuProvider.translate('total'),      // <다국어> 총
                                 style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.black),
                               ));
                         }),
@@ -241,7 +240,7 @@ class _WorkPageState extends State<WorkPage> {
                           return FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
-                                menuProvider.translate('bok'),
+                                menuProvider.translate('bok'),      // <다국어> 복
                                 style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.black),
                               ));
                         }),
@@ -271,7 +270,7 @@ class _WorkPageState extends State<WorkPage> {
                         return FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              menuProvider.translate('mother_no'),
+                              menuProvider.translate('mother_no'),    // <다국어> 모돈번호
                               softWrap: true,
                               textAlign: TextAlign.center,
                               style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.white),
@@ -285,7 +284,7 @@ class _WorkPageState extends State<WorkPage> {
                         return FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              menuProvider.translate('parity'),
+                              menuProvider.translate('parity'),     // <다국어> 산차
                               softWrap: true,
                               textAlign: TextAlign.center,
                               style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.white),
@@ -297,7 +296,7 @@ class _WorkPageState extends State<WorkPage> {
                   child: Consumer<MenuProvider>(
                       builder: (context, menuProvider, child) {
                         return Text(
-                              menuProvider.translate('delivery_due_day'),
+                              menuProvider.translate('delivery_due_day'),     // <다국어> 분만예정일
                               softWrap: true,
                               textAlign: TextAlign.center,
                               maxLines: 1,
@@ -310,7 +309,7 @@ class _WorkPageState extends State<WorkPage> {
                   child: Consumer<MenuProvider>(
                       builder: (context, menuProvider, child) {
                         return Text(
-                          menuProvider.translate('mate_pass_day'),
+                          menuProvider.translate('mate_pass_day'),      // <다국어> 교배경과일
                           softWrap: true,
                           textAlign: TextAlign.center,
                           style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize9, Colors.white),
@@ -333,7 +332,7 @@ class _WorkPageState extends State<WorkPage> {
                           key: ValueKey(index),
                           controller: scrollController,
                           index: index,
-                          child: getListView(item,index)
+                          child: getListView(item,index)    // 분만 List Item Widget
                       );
                     }
             ),
@@ -347,7 +346,7 @@ class _WorkPageState extends State<WorkPage> {
                     return FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          menuProvider.translate('no_search'),
+                          menuProvider.translate('no_search'),        // <다국어> 검색된 목록이 없습니다
                           style: CustomStyle.CustomFont(styleFontSize18, Colors.black),
                         ));
                   }),
@@ -357,6 +356,7 @@ class _WorkPageState extends State<WorkPage> {
     ));
   }
 
+  // 분만 List Item Widget
   Widget getListView(SowModel item, int _index) {
     return InkWell(
       onTap: (){
@@ -375,7 +375,7 @@ class _WorkPageState extends State<WorkPage> {
           work2Controller.text = "0";
           work3Controller.text = "0";
           work4Controller.text = "0";
-          setCnt();
+          setCnt();   // EditText 총산, 포유개시 계산
         }
       },
       child: Container(
@@ -396,7 +396,7 @@ class _WorkPageState extends State<WorkPage> {
           Expanded(
             flex: 2,
             child: Text(
-              "${item.pig_coupon}",
+              "${item.pig_coupon}",     // 모돈번호
               textAlign: TextAlign.center,
               style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
             )
@@ -404,7 +404,7 @@ class _WorkPageState extends State<WorkPage> {
           Expanded(
             flex: 2,
             child: Text(
-              "${item.parity}",
+              "${item.parity}",     // 산차
               textAlign: TextAlign.center,
               style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
             )
@@ -412,7 +412,7 @@ class _WorkPageState extends State<WorkPage> {
           Expanded(
             flex: 2,
             child: Text(
-              "${item.delivery_due_date}",
+              "${item.delivery_due_date}",    // 분만 예정일
               textAlign: TextAlign.center,
               style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
             )
@@ -420,7 +420,7 @@ class _WorkPageState extends State<WorkPage> {
           Expanded(
             flex: 2,
             child: Text(
-              "${item.pregnant_days}",
+              "${item.pregnant_days}",      // 교배 경과일
               textAlign: TextAlign.center,
             style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
             )
@@ -431,6 +431,7 @@ class _WorkPageState extends State<WorkPage> {
     );
   }
 
+  // 분만 성적 입력 Widget
   Widget workWriteWidget() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -443,14 +444,14 @@ class _WorkPageState extends State<WorkPage> {
               Consumer<MenuProvider>(
                   builder: (context, menuProvider, child) {
                     return Obx(() => Text(
-                          menuProvider.translate('write_delivery'),
+                          menuProvider.translate('write_delivery'),     // <다국어>  분만성적입력
                           style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize18 : styleFontSize14, Colors.black),
                         ));
                   }),
               Container(
                 margin: EdgeInsets.only(left: CustomStyle.getWidth(5)),
                 child: Text(
-                  "${selectSowModel.value.pig_coupon??"-"}",
+                  "${selectSowModel.value.pig_coupon??"-"}",      // 선택된 분만 Item 모돈번호
                   style: CustomStyle.CustomFont(styleFontSize22, Colors.black,font_weight: FontWeight.w800),
                 ),
               )
@@ -474,7 +475,7 @@ class _WorkPageState extends State<WorkPage> {
                                     child: SizedBox(
                                       width: 60,
                                     child: Text(
-                                      menuProvider.translate('tot_count'),
+                                      menuProvider.translate('tot_count'),      // <다국어> 총산
                                       maxLines: 1,
                                       style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize14 : styleFontSize11, Colors.black),
                                     ))
@@ -507,11 +508,12 @@ class _WorkPageState extends State<WorkPage> {
                                     child: SizedBox(
                                         width: 60,
                                         child: Text(
-                                          menuProvider.translate('real_count'),
+                                          menuProvider.translate('real_count'),   // <다국어> 실산
                                           style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize14 : styleFontSize11, Colors.black),
                                         ))
                                 );
                               }),
+                          // 실산 TextField
                           Container(
                             margin: EdgeInsets.only(left: CustomStyle.getWidth(5)),
                               width: CustomStyle.getWidth(100.w),
@@ -565,7 +567,7 @@ class _WorkPageState extends State<WorkPage> {
                                 onChanged: (value){
                                   setState(() {
                                     work1Controller.text = int.parse(value).toString();
-                                    setCnt();
+                                    setCnt();   // EditText 총산, 포유개시 계산
                                   });
                                 },
                                 maxLength: 5,
@@ -597,11 +599,12 @@ class _WorkPageState extends State<WorkPage> {
                                   child: SizedBox(
                                       width: 60,
                                       child: Text(
-                                        menuProvider.translate('dead_count'),
+                                        menuProvider.translate('dead_count'),     // <다국어> 사산
                                         style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize14 : styleFontSize11, Colors.black),
                                       ))
                               );
                             }),
+                        // 사실 TextField
                         Container(
                             margin: EdgeInsets.only(left: CustomStyle.getWidth(5)),
                             width: CustomStyle.getWidth(100.w),
@@ -655,7 +658,7 @@ class _WorkPageState extends State<WorkPage> {
                               onChanged: (value){
                                 setState(() {
                                   work2Controller.text = int.parse(value).toString();
-                                  setCnt();
+                                  setCnt();   // EditText 총산, 포유개시 계산
                                 });
                               },
                               maxLength: 5,
@@ -672,11 +675,12 @@ class _WorkPageState extends State<WorkPage> {
                                   child: SizedBox(
                                       width: 60,
                                       child: Text(
-                                        menuProvider.translate('mummy_count'),
+                                        menuProvider.translate('mummy_count'),  // <다국어> 미라
                                         style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize14 : styleFontSize11, Colors.black),
                                       ))
                               );
                             }),
+                        // 미라 TextField
                         Container(
                             margin: EdgeInsets.only(left: CustomStyle.getWidth(5)),
                             width: CustomStyle.getWidth(100.w),
@@ -730,7 +734,7 @@ class _WorkPageState extends State<WorkPage> {
                               onChanged: (value){
                                 setState(() {
                                   work3Controller.text = int.parse(value).toString();
-                                  setCnt();
+                                  setCnt();   // EditText 총산, 포유개시 계산
                                 });
                               },
                               maxLength: 5,
@@ -762,11 +766,12 @@ class _WorkPageState extends State<WorkPage> {
                                   child: SizedBox(
                                       width: 60,
                                       child: Text(
-                                        menuProvider.translate('out_count'),
+                                        menuProvider.translate('out_count'),  //  도태
                                         style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize14 : styleFontSize11, Colors.black),
                                       ))
                               );
                             }),
+                        // 도태 TextField
                         Container(
                             margin: EdgeInsets.only(left: CustomStyle.getWidth(5)),
                             width: CustomStyle.getWidth(100.w),
@@ -820,7 +825,7 @@ class _WorkPageState extends State<WorkPage> {
                               onChanged: (value){
                                 setState(() {
                                   work4Controller.text = int.parse(value).toString();
-                                  setCnt();
+                                  setCnt();   // EditText 총산, 포유개시 계산
                                 });
                               },
                               maxLength: 5,
@@ -837,7 +842,7 @@ class _WorkPageState extends State<WorkPage> {
                                   child: SizedBox(
                                       width: 60,
                                       child: Text(
-                                        menuProvider.translate('lactation'),
+                                        menuProvider.translate('lactation'),  // <다국어> 포유개시
                                         style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize14 : styleFontSize11, Colors.black),
                                       ))
                               );
@@ -854,7 +859,7 @@ class _WorkPageState extends State<WorkPage> {
                                 color: light_gray7
                             ),
                             child: Text(
-                              laction_cnt.value,
+                              laction_cnt.value,      // 포유개시
                               style: CustomStyle.CustomFont(styleFontSize14, Colors.black),
                             )
                         )
@@ -870,6 +875,7 @@ class _WorkPageState extends State<WorkPage> {
     );
   }
 
+  // 날짜 선택 Dialog
   Future openCalendarDialog() {
     DateTime? tempSelectedDay = mCalendarNowDate.value;
     return showModalBottomSheet(
@@ -918,9 +924,9 @@ class _WorkPageState extends State<WorkPage> {
                                             lastDay: DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day),
                                             daysOfWeekHeight: language.value == "ko" ? 32 * MediaQuery.of(context).textScaleFactor : 60 * MediaQuery.of(context).textScaleFactor,
                                             headerStyle: HeaderStyle(
-                                              // default로 설정 돼 있는 2 weeks 버튼을 없애줌 (아마 2주단위로 보기 버튼인듯?)
+                                              // default로 설정 돼 있는 2 weeks 버튼을 없애줌 (2주단위 버튼)
                                               formatButtonVisible: false,
-                                              // 달력 타이틀을 센터로
+                                              // 달력 타이틀 센터
                                               titleCentered: true,
                                               // 말 그대로 타이틀 텍스트 스타일링
                                               titleTextStyle:
@@ -992,7 +998,6 @@ class _WorkPageState extends State<WorkPage> {
                                             ),
                                             focusedDay: tempSelectedDay!,
                                             selectedDayPredicate: (day) {
-                                              print("흐에에엥 => $tempSelectedDay // $day");
                                               return isSameDay(tempSelectedDay, day);
                                             },
 
@@ -1032,7 +1037,7 @@ class _WorkPageState extends State<WorkPage> {
                                                     child: Consumer<MenuProvider>(
                                                         builder: (context, menuProvider, child) {
                                                           return Obx(() => Text(
-                                                            menuProvider.translate('commit'),
+                                                            menuProvider.translate('commit'),     // <다국어> 적용
                                                             softWrap: true,
                                                             textAlign: TextAlign.center,
                                                             style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize18 : styleFontSize12, Colors.white),
@@ -1055,6 +1060,7 @@ class _WorkPageState extends State<WorkPage> {
     );
   }
 
+  // 검색 목록 List Dialog
   openListDialog(BuildContext context, List<SowModel>? list) {
     return showDialog(
         barrierDismissible: true,
@@ -1091,7 +1097,7 @@ class _WorkPageState extends State<WorkPage> {
                                         return FittedBox(
                                             fit: BoxFit.scaleDown,
                                             child: Text(
-                                              menuProvider.translate('mother_no'),
+                                              menuProvider.translate('mother_no'),    // <다국어> 모돈번호
                                               textAlign: TextAlign.center,
                                               style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize15 : styleFontSize12, Colors.black,font_weight: FontWeight.w800),
                                             ));
@@ -1104,7 +1110,7 @@ class _WorkPageState extends State<WorkPage> {
                                         return FittedBox(
                                             fit: BoxFit.scaleDown,
                                             child: Text(
-                                              menuProvider.translate('parity'),
+                                              menuProvider.translate('parity'),     // <다국어> 산차
                                               textAlign: TextAlign.center,
                                               style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize15 : styleFontSize12, Colors.black,font_weight: FontWeight.w800),
                                             ));
@@ -1115,7 +1121,7 @@ class _WorkPageState extends State<WorkPage> {
                                   child:Consumer<MenuProvider>(
                                       builder: (context, menuProvider, child) {
                                         return Text(
-                                              menuProvider.translate('delivery_due_day'),
+                                              menuProvider.translate('delivery_due_day'),   // <다국어> 분만예정일
                                               softWrap: true,
                                               textAlign: TextAlign.center,
                                               style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize15 : styleFontSize12, Colors.black,font_weight: FontWeight.w800),
@@ -1142,7 +1148,7 @@ class _WorkPageState extends State<WorkPage> {
                               work2Controller.text = "0";
                               work3Controller.text = "0";
                               work4Controller.text = "0";
-                              setCnt();
+                              setCnt();   // EditText 총산, 포유개시 계산
                               int _index = mList.indexWhere((element) => element.mother_no == item.mother_no);
                               scrollController.scrollToIndex(
                                 _index,
@@ -1169,7 +1175,7 @@ class _WorkPageState extends State<WorkPage> {
                                     Expanded(
                                         flex: 1,
                                         child: Text(
-                                          "${item?.pig_coupon}",
+                                          "${item?.pig_coupon}",    // 모돈번호
                                           textAlign: TextAlign.center,
                                           style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
                                         )
@@ -1177,7 +1183,7 @@ class _WorkPageState extends State<WorkPage> {
                                     Expanded(
                                         flex: 1,
                                         child: Text(
-                                          "${item?.parity}",
+                                          "${item?.parity}",      // 산차
                                           textAlign: TextAlign.center,
                                           style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
                                         )
@@ -1185,7 +1191,7 @@ class _WorkPageState extends State<WorkPage> {
                                     Expanded(
                                         flex: 1,
                                         child: Text(
-                                          "${item?.delivery_due_date}",
+                                          "${item?.delivery_due_date}",   // 분만 예정일
                                           textAlign: TextAlign.center,
                                           style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
                                         )
@@ -1210,11 +1216,12 @@ class _WorkPageState extends State<WorkPage> {
    * Start Function
    */
 
-  Future<void> goToAccident() async {
+  // 교배 관리 페이지 이동
+  Future<void> goToManagePage() async {
     await Navigator.of(context).push(PageAnimationTransition(page: ManagePage(code: "delivery",), pageAnimationType: RightToLeftFadedTransition()));
   }
 
-
+  // QR코드 페이지 이동
   Future<void> goToQRPage() async {
     Map<String,dynamic> results = await Navigator.of(context).push(PageAnimationTransition(page: QRPage(code: "delivery"), pageAnimationType: RightToLeftFadedTransition()));
 
@@ -1223,7 +1230,7 @@ class _WorkPageState extends State<WorkPage> {
         print("goToQRPage() -> ${results["selectItem"]}");
         int _index = mList.indexWhere((element) => element.mother_no == results["selectItem"].mother_no);
         if(_index < 0) {
-          Util.toast((context.read<MenuProvider>().translate('msg_not_match_mother_no')));
+          Util.toast((context.read<MenuProvider>().translate('msg_not_match_mother_no')));    // <다국어> 일치하는 모돈 번호가 없습니다.
         }else {
           selectSowModel.value = results["selectItem"];
           scrollController.scrollToIndex(
@@ -1233,7 +1240,7 @@ class _WorkPageState extends State<WorkPage> {
           );
         }
       }else{
-        await getSowList();
+        await getSowList();   // 분만예정돈 리스트 API
       }
     }
   }
@@ -1247,6 +1254,7 @@ class _WorkPageState extends State<WorkPage> {
     work4Controller.text = "0";
   }
 
+  // EditText 총산, 포유개시 계산
   void setCnt() {
     int total_value = int.parse(work1Controller.text) + int.parse(work2Controller.text) + int.parse(work3Controller.text);
     total_cnt.value = (total_value).toString();
@@ -1254,6 +1262,7 @@ class _WorkPageState extends State<WorkPage> {
     laction_cnt.value = (laction_value).toString();
   }
 
+  // 분만예정돈 리스트 API
   Future<void> getSowList() async {
     Logger logger = Logger();
     await pr?.show();
@@ -1268,7 +1277,7 @@ class _WorkPageState extends State<WorkPage> {
         mList.value = List.empty(growable: true);
       }
     }).catchError((Object obj) async {
-      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
+      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));    // <다국어> 서버연결에 문제가 있습니다.
       await pr?.hide();
       switch(obj.runtimeType) {
         case DioError:
@@ -1282,14 +1291,15 @@ class _WorkPageState extends State<WorkPage> {
     });
   }
 
+  // 교배 저장 API
   Future<void> saveSow() async {
     Logger logger = Logger();
     await DioService.dioClient(header: true).saveSow(mUser.value.access_key, "delivery_insert", "K", mUser.value.user_id, mUser.value.last_farm_no,Util.getDate(mCalendarNowDate.value), selectSowModel.value.mother_no, real_count: int.parse(work1Controller.text), dead_count: int.parse(work2Controller.text), mummy_count: int.parse(work3Controller.text), selection_count: int.parse(work4Controller.text) ).then((it) async {
       ReturnMap _response = DioService.dioResponse(it);
       logger.i("saveSow() Response => ${_response.error}");
       if(_response.error?["error_code"] == null || _response.error?["error_code"] == "") {
-        Util.toast(context.read<MenuProvider>().translate('msg_success_save_delivery'));
-        await getSowList();
+        Util.toast(context.read<MenuProvider>().translate('msg_success_save_delivery'));      // <다국어> 분만이 저장되었습니다.
+        await getSowList();   // 분만예정돈 리스트 API
         selectSowModel.value = SowModel();
         initEdit();
       }else{
@@ -1297,7 +1307,7 @@ class _WorkPageState extends State<WorkPage> {
       }
 
     }).catchError((Object obj) async {
-      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
+      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));    // <다국어> 서버연결에 문제가 있습니다.
       switch(obj.runtimeType) {
         case DioError:
           final res = (obj as DioError).response;
@@ -1310,6 +1320,7 @@ class _WorkPageState extends State<WorkPage> {
     });
   }
 
+  // 모돈 번호 검색 API
   Future<void> getSearchSow() async {
     Logger logger = Logger();
     await pr?.show();
@@ -1363,7 +1374,7 @@ class _WorkPageState extends State<WorkPage> {
                 return FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
-                    menuProvider.translate('work_manager'),
+                    menuProvider.translate('work_manager'),                           // <다국어> 분만관리
                       style: CustomStyle.CustomFont(styleFontSize18, Colors.white),
                     ));
               }),
@@ -1375,12 +1386,12 @@ class _WorkPageState extends State<WorkPage> {
             return SingleChildScrollView(
                 child: Column(
               children: [
-               workSearchWidget(),
-                Container(
+               workSearchWidget(),      // 분만 검색 Widget
+                SizedBox(
                     height: MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.height * 0.4,
-                    child: workList()
+                    child: workList()      // 분만 List Widget
                 ),
-               workWriteWidget(),
+               workWriteWidget(),   // 분만 성적 입력 Widget
                  Container(
                         margin: EdgeInsets.only(left: CustomStyle.getWidth(15),top: CustomStyle.getHeight(10)),
                         child: Row(
@@ -1392,14 +1403,14 @@ class _WorkPageState extends State<WorkPage> {
                                 child: Consumer<MenuProvider>(
                                     builder: (context, menuProvider, child) {
                                       return Obx(() => Text(
-                                            menuProvider.translate('delivery_date'),
+                                            menuProvider.translate('delivery_date'),            // <다국어> 분만일자
                                             style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize16 : styleFontSize12, Colors.black),
                                           ));
                                     }),
                             ),
                             InkWell(
                                 onTap: () {
-                                  openCalendarDialog();
+                                  openCalendarDialog();   // 날짜 선택 Dialog
                                 },
                                 child: Container(
                                     padding: EdgeInsets.symmetric(
@@ -1442,15 +1453,12 @@ class _WorkPageState extends State<WorkPage> {
                                       onTap: () async {
                                         if(selectSowModel.value.mother_no != null ) {
                                           if(int.parse(work4Controller.text) > int.parse(work1Controller.text)) {
-                                            Util.toast(context.read<MenuProvider>().translate('msg_inputdata_minus'));
-                                            //work4Controller.text = "0";
-                                            //setCnt();
-                                            //workFocus[3].requestFocus();
+                                            Util.toast(context.read<MenuProvider>().translate('msg_inputdata_minus'));        // <다국어> 입력한 값이 음수가 될 수 없습니다.
                                           }else{
-                                            await saveSow();
+                                            await saveSow();      // 분만 저장 API
                                           }
                                         }else{
-                                          Util.toast(context.read<MenuProvider>().translate('msg_select_save_delivery'));
+                                          Util.toast(context.read<MenuProvider>().translate('msg_select_save_delivery'));     // <다국어> 저장할 분만을 선택해주세요.
                                         }
                                       },
                                         child: Container(
@@ -1462,7 +1470,7 @@ class _WorkPageState extends State<WorkPage> {
                                         child: Consumer<MenuProvider>(
                                             builder: (context, menuProvider, child) {
                                               return Obx(() => Text(
-                                                    menuProvider.translate('delivery_save'),
+                                                    menuProvider.translate('delivery_save'),           // <다국어> 분만저장
                                                     style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize18 : styleFontSize12, Colors.white),
                                                   ));
                                             }),
@@ -1474,7 +1482,7 @@ class _WorkPageState extends State<WorkPage> {
                                       right: 10,
                                       child: InkWell(
                                         onTap: (){
-                                          goToAccident();
+                                          goToManagePage();   // 분만 기록 페이지 이동
                                         },
                                           child: const Icon(
                                             Icons.list_alt,

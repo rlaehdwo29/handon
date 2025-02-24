@@ -36,9 +36,9 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
 
   final mUser = UserModel().obs;
   final mSowInfoModel = SowInfoModel().obs;
-  final  mBreedList= List.empty(growable: true).obs;
+  final mBreedList= List.empty(growable: true).obs;
   final page = 0.obs;
-  final language = "my".obs;
+  final language = "my".obs;  // ko: 한국어(Default), ne: 네팔어, my: 미얀마어, km: 캄보디아어
 
 
   @override
@@ -60,6 +60,9 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
    * Start Widget
    */
 
+  /**
+   * 모돈 정보 영역 Widget
+   */
   Widget addidentDetail1Widget() {
     return Obx(() => Container(
       padding: EdgeInsets.only(top: CustomStyle.getHeight(10),left: CustomStyle.getWidth(10), right: CustomStyle.getWidth(10)),
@@ -70,7 +73,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
               Consumer<MenuProvider>(
                   builder: (context, menuProvider, child) {
                     return  Text(
-                      menuProvider.translate('sow_info'),
+                      menuProvider.translate('sow_info'),       // <다국어> 모돈정보
                       softWrap: true,
                       textAlign: TextAlign.center,
                       style: CustomStyle.CustomFont(
@@ -116,7 +119,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                         child: Consumer<MenuProvider>(
                             builder: (context, menuProvider, child) {
                               return  Text(
-                                    menuProvider.translate('mother_no'),
+                                    menuProvider.translate('mother_no'),    // <다국어> 모돈번호
                                     softWrap: true,
                                     textAlign: TextAlign.center,
                                     style: CustomStyle.CustomFont(
@@ -172,7 +175,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                           child: Consumer<MenuProvider>(
                               builder: (context, menuProvider, child) {
                                 return Text(
-                                      menuProvider.translate('breed_no'),
+                                      menuProvider.translate('breed_no'),   // <다국어> 품종
                                       softWrap: true,
                                       textAlign: TextAlign.center,
                                       style: CustomStyle.CustomFont(
@@ -228,7 +231,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return Text(
-                                        menuProvider.translate('notch_no'),
+                                        menuProvider.translate('notch_no'),     // <다국어> 이각번호
                                         softWrap: true,
                                         textAlign: TextAlign.center,
                                         style: CustomStyle.CustomFont(
@@ -283,7 +286,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return  Text(
-                                        menuProvider.translate('system_no'),
+                                        menuProvider.translate('system_no'),    // <다국어> 계통
                                         softWrap: true,
                                         textAlign: TextAlign.center,
                                         style: CustomStyle.CustomFont(
@@ -338,7 +341,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return Text(
-                                        menuProvider.translate('birth'),
+                                        menuProvider.translate('birth'),    // <다국어> 생년월일
                                         softWrap: true,
                                         textAlign: TextAlign.center,
                                         style: CustomStyle.CustomFont(
@@ -393,7 +396,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return Text(
-                                        menuProvider.translate('days_age'),
+                                        menuProvider.translate('days_age'),     //  <다국어> 생후일령
                                         softWrap: true,
                                         textAlign: TextAlign.center,
                                         style: CustomStyle.CustomFont(
@@ -449,7 +452,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return Text(
-                                        menuProvider.translate('where_purchased'),
+                                        menuProvider.translate('where_purchased'),    // <다국어> 구입처
                                         softWrap: true,
                                         textAlign: TextAlign.center,
                                         style: CustomStyle.CustomFont(
@@ -504,7 +507,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return  Text(
-                                        menuProvider.translate('movein_date'),
+                                        menuProvider.translate('movein_date'),      // <다국어> 전입일
                                         softWrap: true,
                                         textAlign: TextAlign.center,
                                         style: CustomStyle.CustomFont(
@@ -560,7 +563,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return  Text(
-                                        menuProvider.translate('now_parity'),
+                                        menuProvider.translate('now_parity'),     // <다국어> 현재산차
                                         softWrap: true,
                                         textAlign: TextAlign.center,
                                         style: CustomStyle.CustomFont(
@@ -615,7 +618,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return Text(
-                                        menuProvider.translate('pig_status'),
+                                        menuProvider.translate('pig_status'),   // <다국어> 현재상태
                                         softWrap: true,
                                         textAlign: TextAlign.center,
                                         style: CustomStyle.CustomFont(
@@ -671,7 +674,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return Text(
-                                        menuProvider.translate('last_work_date'),
+                                        menuProvider.translate('last_work_date'),     // <다국어> 최종작업일
                                         softWrap: true,
                                         textAlign: TextAlign.center,
                                         style: CustomStyle.CustomFont(
@@ -726,7 +729,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return Text(
-                                        menuProvider.translate('delivery_due_day'),
+                                        menuProvider.translate('delivery_due_day'),   // <다국어> 분만예정일
                                         softWrap: true,
                                         textAlign: TextAlign.center,
                                         style: CustomStyle.CustomFont(
@@ -782,7 +785,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return Text(
-                                        menuProvider.translate('culling_date'),
+                                        menuProvider.translate('culling_date'),     // <다국어> 도태일자
                                         softWrap: true,
                                         textAlign: TextAlign.center,
                                         style: CustomStyle.CustomFont(
@@ -837,7 +840,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return Text(
-                                        menuProvider.translate('culling_cause'),
+                                        menuProvider.translate('culling_cause'),    // <다국어> 도태원인
                                         softWrap: true,
                                         textAlign: TextAlign.center,
                                         style: CustomStyle.CustomFont(
@@ -879,6 +882,9 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
     );
   }
 
+  /**
+   * 번식이력 영역 Widget
+   */
   Widget addidentDetail2Widget() {
     return Obx(() => Container(
       padding: EdgeInsets.only(left: CustomStyle.getWidth(10), right: CustomStyle.getWidth(10)),
@@ -891,13 +897,14 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
               Consumer<MenuProvider>(
                   builder: (context, menuProvider, child) {
                     return  Text(
-                      menuProvider.translate('breed_info'),
+                      menuProvider.translate('breed_info'),   // <다국어> 번식이력
                       softWrap: true,
                       textAlign: TextAlign.center,
                       style: CustomStyle.CustomFont(
                           language.value == "ko" ? styleFontSize15 : styleFontSize13, Colors.black,font_weight: FontWeight.w800),
                     );
                   }),
+              // 산차별 정보를 조회하기 위한 페이지 버튼
               Row(
                 children: [
                   InkWell(
@@ -954,7 +961,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return Text(
-                                        menuProvider.translate('parity'),
+                                        menuProvider.translate('parity'),     // <다국어> 산차
                                         textAlign: TextAlign.center,
                                         style: CustomStyle.CustomFont(
                                             language.value == "ko" ? styleFontSize14 : styleFontSize12, Colors.black),
@@ -1005,7 +1012,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return Text(
-                                    menuProvider.translate('mate_date'),
+                                    menuProvider.translate('mate_date'),    // <다국어> 교배일
                                     textAlign: TextAlign.center,
                                     style: CustomStyle.CustomFont(
                                         language.value == "ko" ? styleFontSize14 : styleFontSize12, Colors.black),
@@ -1056,7 +1063,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return Text(
-                                    menuProvider.translate('delivery_day'),
+                                    menuProvider.translate('delivery_day'), // <다국어> 분만일
                                     textAlign: TextAlign.center,
                                     style: CustomStyle.CustomFont(
                                         language.value == "ko" ? styleFontSize14 : styleFontSize12, Colors.black),
@@ -1107,7 +1114,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return Text(
-                                    menuProvider.translate('pregnant_days'),
+                                    menuProvider.translate('pregnant_days'),    // <다국어> 임신일수
                                     textAlign: TextAlign.center,
                                     style: CustomStyle.CustomFont(
                                         language.value == "ko" ? styleFontSize14 : styleFontSize12, Colors.black),
@@ -1158,7 +1165,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return Text(
-                                    menuProvider.translate('tot_count'),
+                                    menuProvider.translate('tot_count'),  // <다국어> 총산
                                     textAlign: TextAlign.center,
                                     style: CustomStyle.CustomFont(
                                         language.value == "ko" ? styleFontSize14 : styleFontSize12, Colors.black),
@@ -1209,7 +1216,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return Text(
-                                    menuProvider.translate('dead_count'),
+                                    menuProvider.translate('dead_count'),   // <다국어> 사산
                                     textAlign: TextAlign.center,
                                     style: CustomStyle.CustomFont(
                                         language.value == "ko" ? styleFontSize14 : styleFontSize12, Colors.black),
@@ -1260,7 +1267,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return Text(
-                                    menuProvider.translate('mummy_count'),
+                                    menuProvider.translate('mummy_count'),    // <다국어> 미라
                                     textAlign: TextAlign.center,
                                     style: CustomStyle.CustomFont(
                                         language.value == "ko" ? styleFontSize14 : styleFontSize12, Colors.black),
@@ -1311,7 +1318,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return Text(
-                                    menuProvider.translate('other'),
+                                    menuProvider.translate('other'),      // <다국어> 기타
                                     textAlign: TextAlign.center,
                                     style: CustomStyle.CustomFont(
                                         language.value == "ko" ? styleFontSize14 : styleFontSize12, Colors.black),
@@ -1362,7 +1369,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return Text(
-                                    menuProvider.translate('lactation_count'),
+                                    menuProvider.translate('lactation_count'),    // <다국어> 포유개시두수
                                     textAlign: TextAlign.center,
                                     style: CustomStyle.CustomFont(
                                         language.value == "ko" ? styleFontSize14 : styleFontSize12, Colors.black),
@@ -1413,7 +1420,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return Text(
-                                    menuProvider.translate('lactation_days'),
+                                    menuProvider.translate('lactation_days'),   // <다국어> 포유기간
                                     textAlign: TextAlign.center,
                                     style: CustomStyle.CustomFont(
                                         language.value == "ko" ? styleFontSize14 : styleFontSize12, Colors.black),
@@ -1464,7 +1471,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return Text(
-                                    menuProvider.translate('wean_day'),
+                                    menuProvider.translate('wean_day'),     // <다국어> 이유일
                                     textAlign: TextAlign.center,
                                     style: CustomStyle.CustomFont(
                                         language.value == "ko" ? styleFontSize14 : styleFontSize12, Colors.black),
@@ -1511,7 +1518,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                             child: Consumer<MenuProvider>(
                                 builder: (context, menuProvider, child) {
                                   return Text(
-                                    menuProvider.translate('wean_count'),
+                                    menuProvider.translate('wean_count'),   // <다국어> 이유두수
                                     textAlign: TextAlign.center,
                                     style: CustomStyle.CustomFont(
                                         language.value == "ko" ? styleFontSize14 : styleFontSize12, Colors.black),
@@ -1676,6 +1683,9 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
   }
 
 
+  /**
+   * 개체관리 Item 상세조회
+   */
   Future<void> getSowDetail() async {
     Logger logger = Logger();
     await pr?.show();
@@ -1731,7 +1741,7 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
                   return FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
-                        menuProvider.translate('individual_manager'),
+                        menuProvider.translate('individual_manager'),     // <다국어> 개체관리
                         softWrap: true,
                         textAlign: TextAlign.start,
 
@@ -1745,8 +1755,8 @@ class _AccidentDetailPageState extends State<AccidentDetailPage> {
             child: SingleChildScrollView(
               child: Column(
                   children: [
-                    addidentDetail1Widget(),
-                    addidentDetail2Widget()
+                    addidentDetail1Widget(),      // 모돈정보 영역
+                    addidentDetail2Widget()       // 번식이력 영역
                   ],
                 )
             )

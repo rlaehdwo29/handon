@@ -37,7 +37,7 @@ class _IndividualPageState extends State<IndividualPage> {
   final selectSowModel = SowModel().obs;
   final mCalendarNowDate = DateTime.now().obs;
   CalendarFormat _calendarFormat = CalendarFormat.month;
-  final language = "my".obs;
+  final language = "my".obs;  // ko: 한국어(Default), ne: 네팔어, my: 미얀마어, km: 캄보디아어
 
   late TextEditingController motherNumController;
 
@@ -51,7 +51,7 @@ class _IndividualPageState extends State<IndividualPage> {
     Future.delayed(Duration.zero, () async {
       mUser.value = await controller.getUserInfo();
       language.value = await controller.getLanguage();
-      await getSowList();
+      await getSowList();   // 개체관리 List Widget
     });
   }
 
@@ -82,7 +82,7 @@ class _IndividualPageState extends State<IndividualPage> {
                         return FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              menuProvider.translate('mother_no'),
+                              menuProvider.translate('mother_no'),    // <다국어> 모돈번호
                               style: CustomStyle.CustomFont(
                                   language.value == "ko" ? styleFontSize14 : styleFontSize12, Colors.black),
                             ));
@@ -156,7 +156,7 @@ class _IndividualPageState extends State<IndividualPage> {
                 ]),
             InkWell(
                 onTap: (){
-                  goToQRPage();
+                  goToQRPage();   // Qr코드 페이지 이동 Function
                 },
                 child: const Icon(
                   Icons.qr_code,
@@ -168,8 +168,8 @@ class _IndividualPageState extends State<IndividualPage> {
       );
     }
 
-    //  List
-  Widget accidentList() {
+    //  개체관리 List
+  Widget indivisualList() {
     return Column(
         children: [
           Container(
@@ -191,7 +191,7 @@ class _IndividualPageState extends State<IndividualPage> {
                   child:Consumer<MenuProvider>(
                       builder: (context, menuProvider, child) {
                         return Text(
-                          menuProvider.translate('mother_no'),
+                          menuProvider.translate('mother_no'),  // <다국어> 모돈번호
                           softWrap: true,
                           textAlign: TextAlign.center,
                           style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.white),
@@ -203,7 +203,7 @@ class _IndividualPageState extends State<IndividualPage> {
                   child: Consumer<MenuProvider>(
                       builder: (context, menuProvider, child) {
                         return Text(
-                          menuProvider.translate('parity'),
+                          menuProvider.translate('parity'), // <다국어> 산차
                           softWrap: true,
                           textAlign: TextAlign.center,
                           style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.white),
@@ -215,7 +215,7 @@ class _IndividualPageState extends State<IndividualPage> {
                   child:Consumer<MenuProvider>(
                       builder: (context, menuProvider, child) {
                         return Text(
-                          menuProvider.translate('pig_status'),
+                          menuProvider.translate('pig_status'), // <다국어> 현재상태
                           softWrap: true,
                           textAlign: TextAlign.center,
                           style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.white),
@@ -227,7 +227,7 @@ class _IndividualPageState extends State<IndividualPage> {
                   child: Consumer<MenuProvider>(
                       builder: (context, menuProvider, child) {
                         return Text(
-                          menuProvider.translate('last_work_date'),
+                          menuProvider.translate('last_work_date'), // <다국어> 최종작업일
                           softWrap: true,
                           textAlign: TextAlign.center,
                           style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.white),
@@ -245,7 +245,7 @@ class _IndividualPageState extends State<IndividualPage> {
                 itemCount: mList.length,
                 itemBuilder: (context, index) {
                       var item = mList[index];
-                      return getListView(item,index);
+                      return getListView(item,index);   // 개체관리 List Item
                     }
             ),
           )
@@ -258,7 +258,7 @@ class _IndividualPageState extends State<IndividualPage> {
                     return FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          menuProvider.translate('no_search'),
+                          menuProvider.translate('no_search'),    // <다국어> 검색된 목록이 없습니다
                           style: CustomStyle.CustomFont(styleFontSize18, Colors.black),
                         ));
                   }),
@@ -268,6 +268,9 @@ class _IndividualPageState extends State<IndividualPage> {
     );
   }
 
+  /**
+   * 개체관리 List Item
+   */
   Widget getListView(SowModel item, int _index) {
     return InkWell(
       onTap: () async {
@@ -291,7 +294,7 @@ class _IndividualPageState extends State<IndividualPage> {
           Expanded(
             flex: 2,
             child: Text(
-              "${item.pig_coupon}",
+              "${item.pig_coupon}",   // 모돈번호
               textAlign: TextAlign.center,
               style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
             )
@@ -299,7 +302,7 @@ class _IndividualPageState extends State<IndividualPage> {
           Expanded(
             flex: 2,
             child: Text(
-              "${item.parity}",
+              "${item.parity}",   // 산차
               textAlign: TextAlign.center,
               style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
             )
@@ -307,7 +310,7 @@ class _IndividualPageState extends State<IndividualPage> {
           Expanded(
             flex: 2,
             child: Text(
-              "${item.pig_status}",
+              "${item.pig_status}", // 현재상태
               textAlign: TextAlign.center,
               style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
             )
@@ -315,7 +318,7 @@ class _IndividualPageState extends State<IndividualPage> {
           Expanded(
             flex: 2,
             child: Text(
-              "${item.last_work_date??"-"}",
+              "${item.last_work_date??"-"}",    // 최종작업일
               textAlign: TextAlign.center,
             style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
             )
@@ -326,190 +329,9 @@ class _IndividualPageState extends State<IndividualPage> {
     );
   }
 
-  Future openCalendarDialog() {
-    DateTime? tempSelectedDay = mCalendarNowDate.value;
-    return showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      enableDrag: true,
-      barrierLabel: "날짜 직접설정",
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadiusDirectional.only(topStart: Radius.circular(15), topEnd: Radius.circular(15)),
-          side: BorderSide(color: Color(0xffEDEEF0), width: 1)
-      ),
-      backgroundColor: Colors.white,
-      builder: (context) {
-        return StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState)
-            {
-              return FractionallySizedBox(
-                  widthFactor: MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.width > 700 ? 1.5 : 1.0,
-                  heightFactor: 0.7,
-                  child: Container(
-                      width: double.infinity,
-                      alignment: Alignment.centerLeft,
-                      margin: EdgeInsets.symmetric(
-                          horizontal: CustomStyle.getWidth(15)),
-                      padding: EdgeInsets.only(right: CustomStyle.getWidth(10),
-                          left: CustomStyle.getWidth(10),
-                          top: CustomStyle.getHeight(10)),
-                      decoration: const BoxDecoration(
-                          color: Colors.white
-                      ),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SingleChildScrollView(
-                                child: SizedBox(
-                                    width: MediaQueryData.fromView(WidgetsBinding.instance.window).size.width,
-                                    height: MediaQueryData.fromView(WidgetsBinding.instance.window).size.height * 0.65,
-                                    child: Column(
-                                        children: [
-                                          TableCalendar(
-                                            rowHeight: MediaQuery.of(context).size.width * MediaQuery.of(context).devicePixelRatio > 1500 ? CustomStyle.getHeight(30.h) : CustomStyle.getHeight(45.h),
-                                            locale: language.value == "ko" ? 'ko_KR' : language.value == "ne" ? "ne_NE" : language.value == "my" ? "my_MY" : "km_KM",
-                                            firstDay: DateTime.utc(2010, 1, 1),
-                                            lastDay: DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day),
-                                            daysOfWeekHeight: language.value == "ko" ? 32 * MediaQuery.of(context).textScaleFactor : 60 * MediaQuery.of(context).textScaleFactor,
-                                            headerStyle: HeaderStyle(
-                                              // default로 설정 돼 있는 2 weeks 버튼을 없애줌 (아마 2주단위로 보기 버튼인듯?)
-                                              formatButtonVisible: false,
-                                              // 달력 타이틀을 센터로
-                                              titleCentered: true,
-                                              // 말 그대로 타이틀 텍스트 스타일링
-                                              titleTextStyle:
-                                              CustomStyle.CustomFont(
-                                                  styleFontSize16, Colors.black,
-                                                  font_weight: FontWeight.w700
-                                              ),
-                                              rightChevronIcon: Icon(
-                                                  Icons.chevron_right, size: 26.h),
-                                              leftChevronIcon: Icon(
-                                                  Icons.chevron_left, size: 26.h),
-                                            ),
-                                            calendarStyle: CalendarStyle(
-                                              tablePadding: EdgeInsets.symmetric(
-                                                  vertical: CustomStyle.getHeight(10.h),
-                                                  horizontal: CustomStyle.getWidth(5.w)
-                                              ),
-                                              outsideTextStyle: CustomStyle.CustomFont(styleFontSize13, line),
-                                              // 오늘 날짜에 하이라이팅의 유무
-                                              isTodayHighlighted: false,
-                                              // 캘린더의 평일 배경 스타일링(default면 평일을 의미)
-                                              defaultDecoration: const BoxDecoration(
-                                                color: Colors.white,
-                                              ),
-                                              // 캘린더의 주말 배경 스타일링
-                                              weekendDecoration: const BoxDecoration(
-                                                color: Colors.white,
-                                              ),
-                                              // 선택한 날짜 배경 스타일링
-                                              selectedDecoration: BoxDecoration(
-                                                  color:Colors.white,
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(color: main_color, width: 1.w)
-                                              ),
-                                              defaultTextStyle: CustomStyle.CustomFont(styleFontSize14, Colors.black, font_weight: FontWeight.w600),
-                                              weekendTextStyle: CustomStyle.CustomFont(styleFontSize14, Colors.red, font_weight: FontWeight.w600),
-                                              selectedTextStyle: CustomStyle.CustomFont(styleFontSize16, Colors.black, font_weight: FontWeight.w600),
-                                              // range 크기 조절
-                                              rangeHighlightScale: 1.0,
-
-                                              // range 색상 조정
-                                              rangeHighlightColor: const Color(0xFFDFE8F4),
-
-                                              // rangeStartDay 글자 조정
-                                              rangeStartTextStyle: CustomStyle.CustomFont(styleFontSize16, Colors.black, font_weight: FontWeight.w600),
-
-                                              // rangeStartDay 모양 조정
-                                              rangeStartDecoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(color: Colors.black, width: 1.w)
-                                              ),
-
-                                              // rangeEndDay 글자 조정
-                                              rangeEndTextStyle: CustomStyle.CustomFont(styleFontSize16, Colors.black, font_weight: FontWeight.w600),
-
-                                              // rangeEndDay 모양 조정
-                                              rangeEndDecoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(color: Colors.black, width: 1.w)
-                                              ),
-
-                                              // startDay, endDay 사이의 글자 조정
-                                              withinRangeTextStyle: CustomStyle.CustomFont(styleFontSize16, Colors.black),
-
-                                              // startDay, endDay 사이의 모양 조정
-                                              withinRangeDecoration: const BoxDecoration(),
-                                            ),
-                                            focusedDay: tempSelectedDay!,
-                                            selectedDayPredicate: (day) {
-                                              return isSameDay(tempSelectedDay, day);
-                                            },
-
-                                            calendarFormat: _calendarFormat,
-                                            onDaySelected: (selectedDay, focusedDay) {
-                                                setState(() {
-                                                  tempSelectedDay = selectedDay;
-                                                });
-                                            },
-
-                                            onFormatChanged: (format) {
-                                              if (_calendarFormat != format) {
-                                                setState(() {
-                                                  _calendarFormat = format;
-                                                });
-                                              }
-                                            },
-                                            onPageChanged: (focusedDay) {
-                                              tempSelectedDay = focusedDay;
-                                            },
-                                          ),
-                                          InkWell(
-                                              onTap: () async {
-                                                mCalendarNowDate.value = tempSelectedDay!;
-                                                Navigator.of(context).pop(false);
-                                              },
-                                              child: Center(
-                                                  child: Container(
-
-                                                    height: CustomStyle.getHeight(50),
-                                                    alignment: Alignment.center,
-                                                    margin: EdgeInsets.symmetric(
-                                                        vertical: CustomStyle.getHeight(5)),
-                                                    decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(50),
-                                                        color: main_color),
-                                                    child: Consumer<MenuProvider>(
-                                                        builder: (context, menuProvider, child) {
-                                                          return Obx(() => Text(
-                                                              menuProvider.translate('commit'),
-                                                              softWrap: true,
-                                                              textAlign: TextAlign.center,
-                                                              style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize18 : styleFontSize12, Colors.white),
-                                                            )
-                                                          );
-                                                        })
-                                                  )
-                                              )
-                                          )
-                                        ]
-                                    )
-                                )
-                            )
-                          ]
-                      )
-                  )
-              );
-            });
-      },
-    );
-  }
-
+  /**
+   * 모돈 번호로 검색한 List Dialog
+   */
   openListDialog(BuildContext context, List<SowModel>? list) {
     return showDialog(
         barrierDismissible: true,
@@ -546,7 +368,7 @@ class _IndividualPageState extends State<IndividualPage> {
                                   return FittedBox(
                                       fit: BoxFit.scaleDown,
                                       child: Text(
-                                        menuProvider.translate('mother_no'),
+                                        menuProvider.translate('mother_no'),    // <다국어> 모돈번호
                                         style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize15 : styleFontSize12, Colors.black,font_weight: FontWeight.w800),
                                       ));
                                 }),
@@ -558,7 +380,7 @@ class _IndividualPageState extends State<IndividualPage> {
                                   return FittedBox(
                                       fit: BoxFit.scaleDown,
                                       child: Text(
-                                        menuProvider.translate('parity'),
+                                        menuProvider.translate('parity'),   //<다국어> 산차
                                         style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize15 : styleFontSize12, Colors.black,font_weight: FontWeight.w800),
                                       ));
                                 }),
@@ -570,7 +392,7 @@ class _IndividualPageState extends State<IndividualPage> {
                                     return FittedBox(
                                         fit: BoxFit.scaleDown,
                                         child: Text(
-                                          menuProvider.translate('pig_status'),
+                                          menuProvider.translate('pig_status'),   // <다국어> 현재상태
                                           style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize15 : styleFontSize12, Colors.black,font_weight: FontWeight.w800),
                                         ));
                                   })
@@ -579,7 +401,7 @@ class _IndividualPageState extends State<IndividualPage> {
                       )
                     ],
                   )),
-                  content:  Container(
+                  content:  SizedBox(
                     width: double.maxFinite, // 최대 가로 크기 설정
                     height: MediaQueryData.fromView(WidgetsBinding.instance.window).size.height * 0.5,
                     child: ListView.builder(
@@ -609,7 +431,7 @@ class _IndividualPageState extends State<IndividualPage> {
                                 Expanded(
                                   flex: 1,
                                     child: Text(
-                                      "${item?.pig_coupon}",
+                                      "${item?.pig_coupon}",    // 모돈번호
                                       textAlign: TextAlign.center,
                                       style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
                                     )
@@ -617,7 +439,7 @@ class _IndividualPageState extends State<IndividualPage> {
                                 Expanded(
                                     flex: 1,
                                     child: Text(
-                                      "${item?.parity}",
+                                      "${item?.parity}",  // 산차
                                       textAlign: TextAlign.center,
                                       style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
                                     )
@@ -625,7 +447,7 @@ class _IndividualPageState extends State<IndividualPage> {
                                 Expanded(
                                     flex: 1,
                                     child: Text(
-                                      "${item?.pig_status}",
+                                      "${item?.pig_status}",    // 현재상태
                                       textAlign: TextAlign.center,
                                       style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
                                     )
@@ -651,15 +473,19 @@ class _IndividualPageState extends State<IndividualPage> {
    */
 
 
+  /**
+   * Qr코드 페이지 이동 Function
+   */
   Future<void> goToQRPage() async {
     Map<String,dynamic> results = await Navigator.of(context).push(PageAnimationTransition(page: QRPage(code: "individual"), pageAnimationType: RightToLeftFadedTransition()));
 
+    // QR코드 화면에서 처리 된 값 갱신
     if(results.containsKey("code")){
       if(results["code"] == 200) {
         int _index = mList.indexWhere((element) => element.mother_no == results["selectItem"].mother_no);
         print("goToQRPage() -> ${_index} // ${results["selectItem"].mother_no} // ${results["selectItem"].pig_coupon}");
         if(_index < 0) {
-          Util.toast((context.read<MenuProvider>().translate('msg_not_match_mother_no')));
+          Util.toast((context.read<MenuProvider>().translate('msg_not_match_mother_no')));    // <다국어> 일치하는 모돈 번호가 없습니다.
         }else {
           selectSowModel.value = results["selectItem"];
           await Navigator.of(context).push(PageAnimationTransition(page: AccidentDetailPage(sowModel: selectSowModel.value), pageAnimationType: RightToLeftFadedTransition()));
@@ -668,7 +494,9 @@ class _IndividualPageState extends State<IndividualPage> {
     }
   }
 
-
+  /**
+   *  개체관리 List Widget
+   */
   Future<void> getSowList() async {
     Logger logger = Logger();
     await pr?.show();
@@ -683,7 +511,7 @@ class _IndividualPageState extends State<IndividualPage> {
         mList.value = List.empty(growable: true);
       }
     }).catchError((Object obj) async {
-      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
+    Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));  // <다국어> 서버연결에 문제가 있습니다.
       await pr?.hide();
       switch(obj.runtimeType) {
         case DioError:
@@ -697,6 +525,9 @@ class _IndividualPageState extends State<IndividualPage> {
     });
   }
 
+  /**
+   * 모돈번호 검색 API
+   */
   Future<void> getSearchSow() async {
     Logger logger = Logger();
     await pr?.show();
@@ -705,9 +536,9 @@ class _IndividualPageState extends State<IndividualPage> {
       ReturnSowMap _response = DioService.dioSowResponse(it);
       logger.i("getSowList() Response => ${_response.list_count} || ${_response.sow_list}");
       List<SowModel>? sow = _response.sow_list;
-        openListDialog(this.context, sow);
+        openListDialog(this.context, sow);  // 검색된 모돈번호 List Dialog
     }).catchError((Object obj) async {
-      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
+      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));    // <다국어> 서버연결에 문제가 있습니다.
       await pr?.hide();
       switch(obj.runtimeType) {
         case DioError:
@@ -748,7 +579,7 @@ class _IndividualPageState extends State<IndividualPage> {
           title:  Consumer<MenuProvider>(
               builder: (context, menuProvider, child) {
                 return Text(
-                      menuProvider.translate('individual_manager'),
+                      menuProvider.translate('individual_manager'),   // <다국어> 개체관리
                       softWrap: true,
                       style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize18 : styleFontSize16, Colors.white),
                     );
@@ -761,8 +592,8 @@ class _IndividualPageState extends State<IndividualPage> {
             return SingleChildScrollView(
                 child: Column(
               children: [
-                workSearchWidget(),
-                Container(
+                workSearchWidget(),   // 모돈번호 검색 Widget
+                Container( // 총 개체 개수 Widget
                   padding: EdgeInsets.only(right: CustomStyle.getWidth(10)),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -773,7 +604,7 @@ class _IndividualPageState extends State<IndividualPage> {
                           return FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
-                                menuProvider.translate('total'),
+                                menuProvider.translate('total'),  //<다국어> 총
                                 style: CustomStyle.CustomFont(
                                     language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.black),
                               ));
@@ -787,16 +618,16 @@ class _IndividualPageState extends State<IndividualPage> {
                           return FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
-                                menuProvider.translate('do'),
+                                menuProvider.translate('do'),   //<다국어> 두
                                 style: CustomStyle.CustomFont(
                                     language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.black),
                               ));
                         }),
                   ],
                 )),
-                Container(
+                SizedBox(
                     height: MediaQueryData.fromView(WidgetsBinding.instance.window).size.height * 0.8,
-                    child: accidentList()
+                    child: indivisualList()   // 개체관리 List Widget
                 ),
               ],
             ));

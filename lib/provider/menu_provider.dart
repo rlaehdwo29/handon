@@ -19,20 +19,19 @@ class MenuProvider with ChangeNotifier {
 
   Map<String, dynamic> _translations = {};
 
+  // Return된 다국어를 파일로 만들어 경로에 저장. (언어 변환 시 실시간으로 빠르게 변환하기 위함.)
   Future<void> loadTranslations(String languageCode) async {
     try {
-      // 애플리케이션 디렉토리 경로 가져오기
-      final Directory appDocDir = await getApplicationDocumentsDirectory();
-      final String filePath =
-          '${appDocDir.path}/assets/translations/$languageCode.json';
+      final Directory appDocDir = await getApplicationDocumentsDirectory();   // 애플리케이션 디렉토리 경로 가져오기
+      final String filePath = '${appDocDir.path}/assets/translations/$languageCode.json';
 
       // 파일 로드
       final File file = File(filePath);
 
       if (await file.exists()) {
-        final String jsonString = await file.readAsString();
-        _translations = jsonDecode(jsonString);
-        notifyListeners();
+        final String jsonString = await file.readAsString();  // 파일이 존재하면 해당 파일 읽기
+        _translations = jsonDecode(jsonString);   // 가져온 데이터를 해당 변수에 저장
+        notifyListeners();    // 위의 이벤트가 발생하면 갱신해주는 리스너
       } else {
         print('파일이 존재하지 않습니다: $filePath');
       }
@@ -41,6 +40,7 @@ class MenuProvider with ChangeNotifier {
     }
   }
 
+  // 다국어 데이터 사용 및 변환
   String translate(String key) {
     return _translations[key] ?? key;
   }

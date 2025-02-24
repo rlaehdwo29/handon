@@ -23,7 +23,7 @@ class _BridgePageState extends State<BridgePage> {
     super.initState();
 
     Future.delayed(Duration.zero, () async {
-      await goToLogin();
+      await goToLogin();    // 첫 로딩화면 Login 페이지로 이동
     });
 
   }
@@ -33,12 +33,18 @@ class _BridgePageState extends State<BridgePage> {
     super.dispose();
   }
 
+  /**
+   * Login Page 이동 Function
+   */
   Future goToLogin() async {
     await Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) => const LoginPage())
     );
   }
 
+  /**
+   * Main Page 이동 Function
+   */
   Future goToMain() async {
     await Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) => const MainPage())

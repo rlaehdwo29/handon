@@ -51,7 +51,7 @@ class _DeadPageState extends State<DeadPage> {
   final select_dead_code = CodeModel().obs;
   final select_dead_reason_code = CodeModel().obs;
   AutoScrollController  scrollController = AutoScrollController();
-  final language = "my".obs;
+  final language = "my".obs;  // ko: 한국어(Default), ne: 네팔어, my: 미얀마어, km: 캄보디아어
 
   @override
   void initState() {
@@ -95,7 +95,7 @@ class _DeadPageState extends State<DeadPage> {
                         return FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              menuProvider.translate('mother_no'),
+                              menuProvider.translate('mother_no'),   // <다국어> 모돈번호
                               style: CustomStyle.CustomFont(
                                   language.value == "ko" ? styleFontSize14 : styleFontSize12, Colors.black),
                             ));
@@ -150,7 +150,7 @@ class _DeadPageState extends State<DeadPage> {
                           ),
                           suffixIcon: IconButton(
                             onPressed: () async {
-                              await getSearchSow();
+                              await getSearchSow();   // 모돈번호 검색 Widget
                               FocusManager.instance.primaryFocus?.unfocus();
                             },
                             icon: Icon(
@@ -169,7 +169,7 @@ class _DeadPageState extends State<DeadPage> {
                 ]),
             InkWell(
                 onTap: (){
-                  goToQRPage();
+                  goToQRPage();       // QR코드 검색 페이지로 이동
                 },
                 child: const Icon(
                   Icons.qr_code,
@@ -181,7 +181,7 @@ class _DeadPageState extends State<DeadPage> {
       );
     }
 
-    // List
+    // 모돈목록 List Widget
   Widget workList() {
     return Column(
         children: [
@@ -196,7 +196,7 @@ class _DeadPageState extends State<DeadPage> {
                       return SizedBox(
                           width: language.value == "ko" ? 110 : 130,
                           child: Text(
-                            menuProvider.translate('mother_list'),
+                            menuProvider.translate('mother_list'),    // <다국어> 모돈목록
                             softWrap: true,
                             style: CustomStyle.CustomFont(
                                 language.value == "ko" ? styleFontSize16 : styleFontSize12, Colors.black),
@@ -209,7 +209,7 @@ class _DeadPageState extends State<DeadPage> {
                           return FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
-                                menuProvider.translate('total'),
+                                menuProvider.translate('total'),      // <다국어> 총
                                 style: CustomStyle.CustomFont(
                                     language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.black),
                               ));
@@ -223,7 +223,7 @@ class _DeadPageState extends State<DeadPage> {
                           return FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
-                                menuProvider.translate('do'),
+                                menuProvider.translate('do'),       // <다국어> 두
                                 style: CustomStyle.CustomFont(
                                     language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.black),
                               ));
@@ -252,7 +252,7 @@ class _DeadPageState extends State<DeadPage> {
                   child: Consumer<MenuProvider>(
                       builder: (context, menuProvider, child) {
                         return Text(
-                          menuProvider.translate('mother_no'),
+                          menuProvider.translate('mother_no'),      // <다국어> 모돈번호
                           softWrap: true,
                           textAlign: TextAlign.center,
                           style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.white),
@@ -264,7 +264,7 @@ class _DeadPageState extends State<DeadPage> {
                   child: Consumer<MenuProvider>(
                       builder: (context, menuProvider, child) {
                         return Text(
-                          menuProvider.translate('parity'),
+                          menuProvider.translate('parity'),       // <다국어> 산차
                           softWrap: true,
                           textAlign: TextAlign.center,
                           style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.white),
@@ -276,7 +276,7 @@ class _DeadPageState extends State<DeadPage> {
                   child: Consumer<MenuProvider>(
                       builder: (context, menuProvider, child) {
                         return Text(
-                          menuProvider.translate('pig_status'),
+                          menuProvider.translate('pig_status'),     // <다국어> 현재상태
                           softWrap: true,
                           textAlign: TextAlign.center,
                           style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.white),
@@ -288,7 +288,7 @@ class _DeadPageState extends State<DeadPage> {
                   child: Consumer<MenuProvider>(
                       builder: (context, menuProvider, child) {
                         return Text(
-                          menuProvider.translate('last_work_date'),
+                          menuProvider.translate('last_work_date'),     // <다국어> 최종작업일
                           softWrap: true,
                           textAlign: TextAlign.center,
                           style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.white),
@@ -319,7 +319,7 @@ class _DeadPageState extends State<DeadPage> {
                           key: ValueKey(index),
                           controller: scrollController,
                           index: index,
-                          child: getListView(item,index)
+                          child: getListView(item,index)      // 도폐사 List Item
                       );
                     }
             ),
@@ -344,9 +344,12 @@ class _DeadPageState extends State<DeadPage> {
     );
   }
 
+  /**
+   * 도폐사 List Item
+   */
   Widget getListView(SowModel item,int _index) {
     return InkWell(
-      onTap: (){
+      onTap: (){    // List Item 클릭 이벤트
         if(selectSowModel.value.mother_no == null) {
           selectSowModel.value = item;
           select_dead_code.value = dead_code[0];
@@ -375,7 +378,7 @@ class _DeadPageState extends State<DeadPage> {
           Expanded(
             flex: 2,
             child: Text(
-              "${item.pig_coupon}",
+              "${item.pig_coupon}",     // 모돈번호
               textAlign: TextAlign.center,
               style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
             )
@@ -383,7 +386,7 @@ class _DeadPageState extends State<DeadPage> {
           Expanded(
             flex: 2,
             child: Text(
-              "${item.parity}",
+              "${item.parity}",   // 산차
               textAlign: TextAlign.center,
               style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
             )
@@ -391,7 +394,7 @@ class _DeadPageState extends State<DeadPage> {
           Expanded(
             flex: 2,
             child: Text(
-              "${item.pig_status??"-"}",
+              "${item.pig_status??"-"}",    // 현재상태
               textAlign: TextAlign.center,
               style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
             )
@@ -399,7 +402,7 @@ class _DeadPageState extends State<DeadPage> {
           Expanded(
             flex: 2,
             child: Text(
-              "${item.last_work_date??"-"}",
+              "${item.last_work_date??"-"}",    // 최종작업일
               textAlign: TextAlign.center,
             style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
             )
@@ -410,6 +413,9 @@ class _DeadPageState extends State<DeadPage> {
     );
   }
 
+  /**
+   * 도폐사 입력 Widget
+   */
   Widget workWriteWidget() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -424,7 +430,7 @@ class _DeadPageState extends State<DeadPage> {
                     return FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          menuProvider.translate('write_out'),
+                          menuProvider.translate('write_out'),      // <다국어> 도폐사 입력
                           style: CustomStyle.CustomFont(
                               language.value == "ko" ? styleFontSize18 : styleFontSize14, Colors.black),
                         ));
@@ -432,17 +438,17 @@ class _DeadPageState extends State<DeadPage> {
               Container(
                 margin: EdgeInsets.only(left: CustomStyle.getWidth(5)),
                 child: Text(
-                  "${selectSowModel.value.pig_coupon??"-"}",
+                  "${selectSowModel.value.pig_coupon??"-"}",      // 모돈번호
                   style: CustomStyle.CustomFont(styleFontSize22, Colors.black,font_weight: FontWeight.w800),
                 ),
               )
             ],
           )
         ),
-        Container(
+        SizedBox(
           child: Column(
             children: [
-                Container(
+                SizedBox(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -454,7 +460,7 @@ class _DeadPageState extends State<DeadPage> {
                                 return Obx(() => SizedBox(
                                     width: CustomStyle.getWidth(120),
                                     child: Text(
-                                      menuProvider.translate('out_state'),
+                                      menuProvider.translate('out_state'),    // <다국어> 도폐사 구분
                                       softWrap: true,
                                       textAlign: TextAlign.center,
                                       style: CustomStyle.CustomFont(
@@ -502,7 +508,7 @@ class _DeadPageState extends State<DeadPage> {
           margin: EdgeInsets.only(top: CustomStyle.getHeight(5)),
           child: Column(
             children: [
-              Container(
+              SizedBox(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -514,7 +520,7 @@ class _DeadPageState extends State<DeadPage> {
                               return Obx(() => SizedBox(
                                   width: CustomStyle.getWidth(120),
                                   child: Text(
-                                    menuProvider.translate('out_reason'),
+                                    menuProvider.translate('out_reason'),   // <다국어> 도폐사 원인
                                     softWrap: true,
                                     textAlign: TextAlign.center,
                                     style: CustomStyle.CustomFont(
@@ -887,20 +893,26 @@ class _DeadPageState extends State<DeadPage> {
    * Start Function
    */
 
+  /**
+   * 도폐사 화면 이동 Function
+   */
   Future<void> goToAccident() async {
     await Navigator.of(context).push(PageAnimationTransition(page: ManagePage(code: "out",), pageAnimationType: RightToLeftFadedTransition()));
   }
 
-
+  /**
+   * QR코드 화면 이동 Function
+   */
   Future<void> goToQRPage() async {
     Map<String,dynamic> results = await Navigator.of(context).push(PageAnimationTransition(page: QRPage(code: "out"), pageAnimationType: RightToLeftFadedTransition()));
 
+    // QR코드 화면에서 처리 된 값 갱신
     if(results.containsKey("code")){
       if(results["code"] == 200) {
         print("goToQRPage() -> ${results["selectItem"]}");
         int _index = mList.indexWhere((element) => element.mother_no == results["selectItem"].mother_no);
         if(_index < 0) {
-          Util.toast((context.read<MenuProvider>().translate('msg_not_match_mother_no')));
+          Util.toast((context.read<MenuProvider>().translate('msg_not_match_mother_no')));    // <다국어> 일치하는 모돈 번호가 없습니다.
         }else {
           selectSowModel.value = results["selectItem"];
           scrollController.scrollToIndex(
@@ -918,7 +930,9 @@ class _DeadPageState extends State<DeadPage> {
     laction_cnt.value = "0";
   }
 
-
+  /**
+   * 도폐사 List API
+   */
   Future<void> getSowList() async {
     Logger logger = Logger();
     await pr?.show();
@@ -947,6 +961,9 @@ class _DeadPageState extends State<DeadPage> {
     });
   }
 
+  /**
+   * 도폐사 입력 DropDown 코드값 가져오기 API
+   */
   Future<void> getCode(String? code) async {
     Logger logger = Logger();
     await DioService.dioClient(header: true).getCode( code, "K",access_key: mUser.value.access_key, user_id: mUser.value.user_id).then((it) async {
@@ -978,6 +995,9 @@ class _DeadPageState extends State<DeadPage> {
     });
   }
 
+  /**
+   * 도폐 저장 API
+   */
   Future<void> saveSow() async {
     Logger logger = Logger();
     await pr?.show();
@@ -987,9 +1007,9 @@ class _DeadPageState extends State<DeadPage> {
       logger.i("saveSow() Response => ${_response.error}");
       if(_response.error?["error_code"] == null || _response.error?["error_code"] == "") {
         Util.toast(context.read<MenuProvider>().translate('msg_success_save_out'));
-        await getSowList();
+        await getSowList(); // 도폐 저장 후 List 갱신
         selectSowModel.value = SowModel();
-        initEdit();
+        initEdit();   // 도폐 저장 후 해당 값 초기화
       }else{
         Util.toast("${_response.error?["error_code"]} : ${_response.error?["message"]}");
       }
@@ -1009,6 +1029,9 @@ class _DeadPageState extends State<DeadPage> {
     });
   }
 
+  /**
+   * 모돈번호 검색 API
+   */
   Future<void> getSearchSow() async {
     Logger logger = Logger();
     await pr?.show();
@@ -1017,7 +1040,7 @@ class _DeadPageState extends State<DeadPage> {
       ReturnSowMap _response = DioService.dioSowResponse(it);
       logger.i("getSearchSow() Response => ${_response.list_count} || ${_response.sow_list}");
       List<SowModel>? sow = _response.sow_list;
-      openListDialog(this.context, sow);
+      openListDialog(this.context, sow);     // List 조회 리스트를 Dialog로 노출
     }).catchError((Object obj) async {
       Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
       await pr?.hide();
@@ -1062,7 +1085,7 @@ class _DeadPageState extends State<DeadPage> {
                 return FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
-                      menuProvider.translate('out_manager'),
+                      menuProvider.translate('out_manager'),      // <다국어> 도폐사 관리
                       softWrap: true,
                       textAlign: TextAlign.center,
                       style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize18 : styleFontSize16, Colors.white),
@@ -1076,12 +1099,12 @@ class _DeadPageState extends State<DeadPage> {
             return SingleChildScrollView(
                 child: Column(
               children: [
-                workSearchWidget(),
-                Container(
+                workSearchWidget(),   // 모돈번호 검색 Widget
+                SizedBox(     // 도폐사 List Widget
                     height: MediaQueryData.fromView(WidgetsBinding.instance.window).size.height * 0.47,
                     child: workList()
                 ),
-                workWriteWidget(),
+                workWriteWidget(),    // 도폐사 입력 Widget
                 Container(
                         margin: EdgeInsets.only(right: CustomStyle.getWidth(15),left: CustomStyle.getWidth(15), top: CustomStyle.getHeight(5)),
                         child: Row(
@@ -1095,7 +1118,7 @@ class _DeadPageState extends State<DeadPage> {
                                       return Obx(() => SizedBox(
                                           width: CustomStyle.getWidth(120),
                                           child: Text(
-                                            menuProvider.translate('out_date'),
+                                            menuProvider.translate('out_date'),   // <다국어> 도폐일자
                                             softWrap: true,
                                             textAlign: TextAlign.center,
                                             style: CustomStyle.CustomFont(
@@ -1107,7 +1130,7 @@ class _DeadPageState extends State<DeadPage> {
                             ),
                             InkWell(
                                 onTap: () {
-                                  openCalendarDialog();
+                                  openCalendarDialog();   // 도폐일자 캘린더 선택
                                 },
                                 child: Container(
                                    width: CustomStyle.getWidth(150.w),
@@ -1134,6 +1157,9 @@ class _DeadPageState extends State<DeadPage> {
             ));
           }),
         ),
+        /**
+         * 화면 하단 Footer
+         */
         bottomNavigationBar: SizedBox(
             height: CustomStyle.getHeight(60.0.h),
             child: Row(
@@ -1152,10 +1178,11 @@ class _DeadPageState extends State<DeadPage> {
                                     bottom:10,
                                     child: InkWell(
                                       onTap: () async {
+                                        // 선택한 모돈이 존재할 때 저장
                                         if(selectSowModel.value.mother_no != null ) {
-                                          await saveSow();
+                                          await saveSow();    // 모돈 저장 Function
                                         }else{
-                                          Util.toast(context.read<MenuProvider>().translate('msg_select_save_mother'));
+                                          Util.toast(context.read<MenuProvider>().translate('msg_select_save_mother'));     // <다국어> 저장할 모돈을 선택해주세요.
                                         }
                                       },
                                         child: Container(
@@ -1167,7 +1194,7 @@ class _DeadPageState extends State<DeadPage> {
                                         child: Consumer<MenuProvider>(
                                             builder: (context, menuProvider, child) {
                                               return Obx(() => Text(
-                                                    menuProvider.translate('out_save'),
+                                                    menuProvider.translate('out_save'),     // <다국어> 도폐저장
                                                     style: CustomStyle.CustomFont(
                                                         language.value == "ko" ? styleFontSize18 : styleFontSize14, Colors.white),
                                                   ));
@@ -1180,7 +1207,7 @@ class _DeadPageState extends State<DeadPage> {
                                       right: 10,
                                       child: InkWell(
                                         onTap: (){
-                                          goToAccident();
+                                          goToAccident();     // 도폐사 기록 Page 이동 Function
                                         },
                                           child: const Icon(
                                             Icons.list_alt,

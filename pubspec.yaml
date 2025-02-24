@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 1.0.0+1      # 앱 배포 버전 관리. 앱 업데이트 시 변경 필요.
 
 environment:
   sdk: ^3.5.1
@@ -34,35 +34,35 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.8
-  get: ^4.6.5
-  file: ^6.1.4
-  http: ^1.1.0
-  intl: ^0.19.0
-  platform: ^3.1.0
-  crypto: ^3.0.3
-  flutter_native_splash: ^2.3.1
-  shared_preferences: ^2.1.2
+  cupertino_icons: ^1.0.8           # iOS 스타일 아이콘 라이브러리
+  get: ^4.6.5                       # GetX 상태관리 및 의존성 라이브러리 (Route 관리 포함)
+  file: ^6.1.4                      # 파일 시스템을 다루기 위한 라이브러리
+  http: ^1.1.0                      # REST API 통신 HTTP 요청 라이브러리
+  intl: ^0.19.0                     # 날짜, 숫자, 다국어 지원 라이브러리
+  platform: ^3.1.0                  # OS 정보 가져오는 라이브러리
+  crypto: ^3.0.3                    # SHA, MD5 등 암호화 기능 제공 라이브러리
+  flutter_native_splash: ^2.3.1     # 스플래쉬 라이브러리
+  shared_preferences: ^2.1.2        # 앱 내부 DB 라이브러리 (Key-Value 방식)
   flutter_platform_widgets: ^3.3.5
-  flutter_screenutil: ^5.8.4
-  provider: ^6.0.5
-  path: ^1.8.3
-  path_provider: ^2.0.15
-  sqflite: ^2.2.8+4
-  logger: ^1.4.0
-  encrypt: ^5.0.1
-  json_serializable: ^6.7.0
-  json_annotation: ^4.8.1
-  fluttertoast: ^8.2.2
-  retrofit: ^4.0.1
-  page_animation_transition: ^1.0.0
-  table_calendar: ^3.0.9
-  progress_dialog_null_safe: ^1.0.7
-  dropdown_search: ^6.0.1
-  scroll_to_index: ^3.0.1
-  package_info_plus: ^4.0.0
-  mobile_scanner: ^6.0.2
-  easy_localization: ^3.0.7
+  flutter_screenutil: ^5.8.4        # 반응형 UI 개발 라이브러리
+  provider: ^6.0.5                  # 기본 상태 관리 라이브러리
+  path: ^1.8.3                      # 파일 및 디렉터리 경로 관련 기능 제공 라이브러리
+  path_provider: ^2.0.15            # 앱의 로컬 저장소 경로를 서칭 라이브러리
+  sqflite: ^2.2.8+4                 # SQLite 로컬 데이터베이스 관리 라이브러리
+  logger: ^1.4.0                    # 디버깅을 위한 로깅 라이브러리
+  encrypt: ^5.0.1                   # AES 및 RSA 암호화 라이브러리
+  json_serializable: ^6.7.0         # JSON 데이터를 Dart 객체로 변환하는 자동화 라이브러리
+  json_annotation: ^4.8.1           # JSON 직렬화/역직렬화 시 사용하는 라이브러리
+  fluttertoast: ^8.2.2              # 토스트 메시지 라이브러리
+  retrofit: ^4.0.1                  # Retrofit 라이브러리
+  page_animation_transition: ^1.0.0 # 페이지 전환 애니메이션 라이브러리
+  table_calendar: ^3.0.9            # 캘린더 위젯 라이브러리
+  progress_dialog_null_safe: ^1.0.7 # 로딩 다이얼로그 (Progress Indicator) 라이브러리
+  dropdown_search: ^6.0.1           # 드롭다운 위젯 라이브러리
+  scroll_to_index: ^3.0.1           # ListView에서 특정 인덱스로 스크롤할 수 있는 라이브러리
+  package_info_plus: ^4.0.0         # 앱의 버전, 패키지 정보 등 가져오는 라이브러리
+  mobile_scanner: ^6.0.2            # QR 코드 및 바코드 스캔 라이브러리
+  easy_localization: ^3.0.7         # 다국어 번역 라이브러리
 
 dev_dependencies:
   flutter_test:

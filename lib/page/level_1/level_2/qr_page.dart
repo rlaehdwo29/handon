@@ -22,7 +22,7 @@ import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class QRPage extends StatefulWidget {
-  String? code; // 01: 교배관리, 02: 분만관리
+  String? code; // mate = 교배, delivery = 분만, wean = 이유, accident = 임신사고, out = 도폐사
 
   QRPage({Key? key, required this.code}) : super(key:key);
 
@@ -35,11 +35,11 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
 
   final mUser = UserModel().obs;
   final searchQRModel = SowModel().obs;
-  final language = "my".obs;
+  final language = "my".obs;  // ko: 한국어(Default), ne: 네팔어, my: 미얀마어, km: 캄보디아어
   ProgressDialog? pr;
   final _isScanning = false.obs;
-  final qr_cd = "".obs;
-  final qr_msg = "".obs;
+  final qr_cd = "".obs;   // Qr코드 결과 Code
+  final qr_msg = "".obs;    // Qr코드 결과 메세지
 
   final MobileScannerController ScanController = MobileScannerController(
     formats: const [BarcodeFormat.qrCode]
@@ -64,6 +64,8 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
   /**
    * Start Widget
    */
+
+  // Qr코드 Widget
   Widget qrArea() {
     final scanWindow = Rect.fromCenter(
       center:  Offset(
@@ -87,7 +89,7 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
               if (barcodes.isNotEmpty) {
                 final scannedData = barcodes.first.displayValue;
                 if (scannedData != null) {
-                  _handleQRCodeDetected(scannedData);
+                  _handleQRCodeDetected(scannedData);    // QR 코드 인식 후 처리 로직
                 }
               }
             },
@@ -120,6 +122,7 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
    * Start Function
    */
 
+  // Qr코드가 한번에 여러개 인식하는것을 방지하기 위한 메소드.
   void _handleQRCodeDetected(String qrCodeData) async {
     if (_isScanning.value) return;
 
@@ -143,12 +146,11 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
     } catch (e) {
       print("Error processing QR Code: $e");
     } finally {
-      //setState(() {
         _isScanning.value = false; // 스캔 잠금 해제
-      //});
     }
   }
 
+  // 조회한 QR코드의 모돈번호로 조회해서 해당 목록을 가져오는 API
   Future<void> getSearchQr(int? last_farm_no, int? mother_no) async {
     Logger logger = Logger();
     await pr?.show();
@@ -184,6 +186,7 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
     });
   }
 
+  // 임신 사고를 저장하는 API
   Future<void> saveSow(SowModel sow) async {
     Logger logger = Logger();
     await DioService.dioClient(header: true).saveSow(mUser.value.access_key, "accident_insert", "K", mUser.value.user_id, mUser.value.last_farm_no,Util.getDate(DateTime.now()), sow.mother_no, accident_kind: "01" ).then((it) async {
@@ -193,10 +196,9 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
         Util.toast((context.read<MenuProvider>().translate('msg_success_save_accident')));
         Navigator.of(context).pop({'code':200,'selectItem':searchQRModel.value});
       }else{
-        Util.toast((context.read<MenuProvider>().translate('msg_not_match_mother_no')));
+        Util.toast((context.read<MenuProvider>().translate('msg_not_match_mother_no')));    // <다국어> 일치하는 모돈 번호가 없습니다.
         Navigator.of(context).pop({'code':100});
       }
-
     }).catchError((Object obj) async {
       Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
       switch(obj.runtimeType) {
@@ -239,6 +241,7 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
           Consumer<MenuProvider>(
               builder: (context, menuProvider, child) {
                 return Obx(() => Text(
+                    // mate_manager = <다국어> 교배관리, work_manager = <다국어> 분만관리, wean_manager = <다국어> 이유관리, accident_manager = <다국어> 임신사고 관리, out_manager = <다국어> 임신사고 관리
                       widget.code == "mate" ? menuProvider.translate('mate_manager') : widget.code == "delivery" ? menuProvider.translate('work_manager') : widget.code == "wean" ? menuProvider.translate('wean_manager')  : widget.code == "accident" ? menuProvider.translate('accident_manager') : widget.code == "out" ? menuProvider.translate('out_manager') :  menuProvider.translate('individual_manager'),
                       style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize18 : styleFontSize14, Colors.white),
                     ));
@@ -254,7 +257,7 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
                 children: [
                 Expanded(
                     flex: 1,
-                    child: qrArea()
+                    child: qrArea()   // QR코드 Widget
                 ),
 
                 Expanded(
@@ -274,20 +277,19 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
                                           return FittedBox(
                                               fit: BoxFit.scaleDown,
                                               child: Text(
-                                                menuProvider.translate('mother_no'),
+                                                menuProvider.translate('mother_no'),      // <다국어> 모돈번호
                                                 style: CustomStyle.CustomFont(styleFontSize16, Colors.black),
                                               ));
                                         }),
                                 ),
                                 Text(
-                                  searchQRModel.value.pig_coupon??"-",
+                                  searchQRModel.value.pig_coupon??"-",    // 모돈번호
                                   style: CustomStyle.CustomFont(styleFontSize22, Colors.black,font_weight: FontWeight.w800),
                                 )
                               ],
                             ),
                             Container(
                                 margin: EdgeInsets.only(top: CustomStyle.getHeight(5)),
-                                //padding: EdgeInsets.symmetric(vertical: CustomStyle.getHeight(5)),
                                 decoration: BoxDecoration(
                                   border: Border.all(width: 2,color: Colors.black)
                                 ),
@@ -304,14 +306,8 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
                                                 decoration: const BoxDecoration(
                                                     color: light_gray3,
                                                     border: Border(
-                                                        right:BorderSide(
-                                                            color: Colors.black,
-                                                            width: 2
-                                                        ),
-                                                      bottom: BorderSide(
-                                                          color: Colors.black,
-                                                          width: 2
-                                                      ),
+                                                      right:BorderSide(color: Colors.black, width: 2),
+                                                      bottom: BorderSide(color: Colors.black, width: 2),
                                                     )
                                                 ),
                                                 child: Consumer<MenuProvider>(
@@ -319,7 +315,7 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
                                                       return FittedBox(
                                                           fit: BoxFit.scaleDown,
                                                           child: Text(
-                                                            menuProvider.translate('now_parity'),
+                                                            menuProvider.translate('now_parity'), //<다국어> 현재산차
                                                             style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.black),
                                                           ));
                                                     }),
@@ -333,14 +329,8 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
                                                 decoration: const BoxDecoration(
                                                     color: light_gray3,
                                                     border: Border(
-                                                        right: BorderSide(
-                                                            color: Colors.black,
-                                                            width: 2
-                                                        ),
-                                                      bottom: BorderSide(
-                                                          color: Colors.black,
-                                                          width: 2
-                                                      ),
+                                                      right: BorderSide(color: Colors.black, width: 2),
+                                                      bottom: BorderSide(color: Colors.black, width: 2),
                                                     )
                                                 ),
                                                 child: Consumer<MenuProvider>(
@@ -348,9 +338,10 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
                                                       return FittedBox(
                                                           fit: BoxFit.scaleDown,
                                                           child: Text(
-                                                            menuProvider.translate('birth'),
+                                                            menuProvider.translate('birth'),      // <다국어> 생년월일
                                                             style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.black),
-                                                          ));
+                                                          )
+                                                      );
                                                     }),
                                             )
                                         ),
@@ -361,8 +352,7 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
                                               decoration: const BoxDecoration(
                                                   color: light_gray3,
                                                 border: Border(
-                                                  bottom: BorderSide(
-                                                      color: Colors.black,
+                                                  bottom: BorderSide(color: Colors.black,
                                                       width: 2
                                                   ),
                                                 )
@@ -372,7 +362,7 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
                                                     return FittedBox(
                                                         fit: BoxFit.scaleDown,
                                                         child: Text(
-                                                          menuProvider.translate('pig_status'),
+                                                          menuProvider.translate('pig_status'),     // <다국어> 현재상태
                                                           style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.black),
                                                         ));
                                                   }),
@@ -397,7 +387,7 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
                                                     )
                                                 ),
                                                 child: Text(
-                                                  "${searchQRModel.value.parity??"-"}",
+                                                  "${searchQRModel.value.parity??"-"}",   // 검색된 Qr코드 산차
                                                   textAlign: TextAlign.center,
                                                   style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
                                                 )
@@ -416,7 +406,7 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
                                                     )
                                                 ),
                                                 child: Text(
-                                                  "${searchQRModel.value.birth??"-"}",
+                                                  "${searchQRModel.value.birth??"-"}",  // 검색된 생년월일
                                                   textAlign: TextAlign.center,
                                                   style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
                                                 )
@@ -427,7 +417,7 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
                                             child: Container(
                                                 padding: EdgeInsets.symmetric(vertical: CustomStyle.getHeight(5)),
                                               child: Text(
-                                                "${searchQRModel.value.pig_status??"-"}",
+                                                "${searchQRModel.value.pig_status??"-"}",   // 검색된 현재상태
                                                 textAlign: TextAlign.center,
                                                 style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
                                               )
@@ -441,12 +431,13 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
                             Container(
                               margin: EdgeInsets.only(top: CustomStyle.getHeight(30)),
                               child: Text(
-                                  "${qr_msg.value}",
+                                  "${qr_msg.value}",    // Qr 코드 검색 시 Return된 메세지 값을 노출
                                 textAlign: TextAlign.center,
                                 style: CustomStyle.CustomFont(styleFontSize16, qr_cd.value == "00" ? main_color : Colors.red ,font_weight: FontWeight.w700),
                               )
                             ),
 
+                            // Qr로 조회한 목록이 "유산"일때 버튼 노출
                             qr_cd.value == "04" ?
                             Container(
                               margin: EdgeInsets.only(top: CustomStyle.getHeight(30)),
@@ -456,7 +447,7 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
                                 children: [
                                   InkWell(
                                       onTap: () async {
-                                        await saveSow(searchQRModel.value);
+                                        await saveSow(searchQRModel.value);     // 임신사고 저장 API
                                       },
                                       child: Container(
                                       width: CustomStyle.getWidth(100),
@@ -466,7 +457,7 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
                                           color: main_color
                                       ),
                                       child: Text(
-                                        context.read<MenuProvider>().translate('yes'),
+                                        context.read<MenuProvider>().translate('yes'),  // <다국어> 예
                                         textAlign: TextAlign.center,
                                         style: CustomStyle.CustomFont(styleFontSize14, Colors.white),
                                       )
@@ -484,7 +475,7 @@ class _QRPageState extends State<QRPage> with WidgetsBindingObserver {
                                           color: Color(0xfff99245)
                                         ),
                                         child: Text(
-                                          context.read<MenuProvider>().translate('no'),
+                                          context.read<MenuProvider>().translate('no'),     // <다국어> 아니오
                                           textAlign: TextAlign.center,
                                           style: CustomStyle.CustomFont(styleFontSize14, Colors.white),
                                         )
@@ -516,6 +507,7 @@ class ScannerErrorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     String errorMessage;
 
+    // QR코드 Scanner 준비 사용 여부 Msg
     switch (error.errorCode) {
       case MobileScannerErrorCode.controllerUninitialized:
         errorMessage = 'Controller not ready.';

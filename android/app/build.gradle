@@ -37,6 +37,7 @@ android {
         multiDexEnabled true
     }
 
+    // APK Build시 Google Play Store KEY로 릴리즈
     signingConfigs {
         release {
             storeFile file('C:\\AndroidStudio\\handon_project\\android\\keystore\\key.jks')
@@ -51,13 +52,13 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'     // 앱 난독화
+            signingConfig signingConfigs.release        // Key 서명
         }
         debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'     // 앱 난독화 파일 적용
+            signingConfig signingConfigs.debug              // KEY 서명
         }
     }
 }

@@ -30,7 +30,7 @@ class _SettingPageState extends State<SettingPage> {
   ProgressDialog? pr;
   final controller = Get.find<App>();
   final checkLanguage = "ko".obs;   // ko: 한국어(Default), ne: 네팔어, my: 미얀마어, km: 캄보디아어
-  final select_farm = Map<String,dynamic>().obs;
+  final select_farm = Map<String,dynamic>().obs;    // 농장 선택
   final appVersion = "0.0".obs;
   final appMinSdk = "0".obs;
 
@@ -68,7 +68,7 @@ class _SettingPageState extends State<SettingPage> {
             child:  Consumer<MenuProvider>(
               builder: (context, menuProvider, child) {
                 return Obx(() => Text(
-                  menuProvider.translate('language'),
+                  menuProvider.translate('language'),   // <다국어> 언어선택
                   textAlign: TextAlign.center,
                   style: CustomStyle.CustomFont(checkLanguage.value == "ko" ? styleFontSize16 : styleFontSize12, Colors.black,
                       font_weight: FontWeight.w800),
@@ -182,7 +182,6 @@ class _SettingPageState extends State<SettingPage> {
    * Funcion Start
    */
   void changeLanguage(BuildContext context, String languageCode) async {
-    //final translations = await MenuProvider.getCode(languageCode);
     context.read<MenuProvider>().loadTranslations(languageCode);
 
     MyApp.setLocale(context, Locale(languageCode,languageCode == "ko" ? "KR" : languageCode == "ne" ? "NE" : languageCode == "my" ? "MY" : "KM"));
@@ -219,7 +218,7 @@ class _SettingPageState extends State<SettingPage> {
         title: Consumer<MenuProvider>(
             builder: (context, menuProvider, child) {
               return Obx(() => Text(
-                  menuProvider.translate('setting'),
+                  menuProvider.translate('setting'),    // <다국어> 설정
                   style: CustomStyle.CustomFont(checkLanguage.value == "ko" ? styleFontSize18 : styleFontSize14, Colors.white)
                 )
               );
@@ -243,7 +242,7 @@ class _SettingPageState extends State<SettingPage> {
                               width: MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.width * 0.95,
                               height: MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.height * 0.2,
                               child: Image.asset(
-                                "assets/image/doni_guardT.png",
+                                "assets/image/img_doni_guardT.png",
                                 fit: BoxFit.fill,
                               )
                           ),
@@ -259,7 +258,7 @@ class _SettingPageState extends State<SettingPage> {
                                 child: Consumer<MenuProvider>(
                                     builder: (context, menuProvider, child) {
                                       return Obx(() => Text(
-                                            menuProvider.translate('select_farm'),
+                                            menuProvider.translate('select_farm'),    // <다국어> 농장선택
                                             style: CustomStyle.CustomFont(checkLanguage.value == "ko" ? styleFontSize18 : styleFontSize14, Colors.black,font_weight: FontWeight.w800),
                                           ));
                                     })
@@ -308,7 +307,7 @@ class _SettingPageState extends State<SettingPage> {
                                 Consumer<MenuProvider>(
                                     builder: (context, menuProvider, child) {
                                       return Obx(() => Text(
-                                            "${menuProvider.translate('version_title')}: V${appVersion.value}",
+                                            "${menuProvider.translate('version_title')}: V${appVersion.value}",   // <다국어> 한돈팜스 버전
                                             softWrap: true,
                                             textAlign: TextAlign.center,
                                             style: CustomStyle.CustomFont(checkLanguage.value == "ko" ? styleFontSize16 : styleFontSize12, Colors.black),
@@ -317,7 +316,7 @@ class _SettingPageState extends State<SettingPage> {
                                 Consumer<MenuProvider>(
                                     builder: (context, menuProvider, child) {
                                       return  Obx(() => Text(
-                                            "${menuProvider.translate('service_no')}: HPA20241130",
+                                            "${menuProvider.translate('service_no')}: HPA20241130",   // <다국어> 서비스공급번호
                                             style: CustomStyle.CustomFont(checkLanguage.value == "ko" ? styleFontSize16 : styleFontSize12, Colors.black),
                                           ));
                                     }),

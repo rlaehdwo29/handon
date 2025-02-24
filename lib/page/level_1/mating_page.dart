@@ -41,7 +41,7 @@ class _MatingPageState extends State<MatingPage> {
   late TextEditingController sowNumController;
   final mCalendarNowDate = DateTime.now().obs;
   CalendarFormat _calendarFormat = CalendarFormat.month;
-  final language = "my".obs;
+  final language = "my".obs;  // ko: 한국어(Default), ne: 네팔어, my: 미얀마어, km: 캄보디아어
   AutoScrollController  scrollController = AutoScrollController();
 
   @override
@@ -52,7 +52,7 @@ class _MatingPageState extends State<MatingPage> {
     Future.delayed(Duration.zero, () async {
       mUser.value = await controller.getUserInfo();
       language.value = await controller.getLanguage();
-      await getSowList();
+      await getSowList(); // 교배 List
     });
   }
 
@@ -83,7 +83,7 @@ class _MatingPageState extends State<MatingPage> {
                         return FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              menuProvider.translate('mother_no'),
+                              menuProvider.translate('mother_no'),      // <다국어> 모돈번호
                               style: CustomStyle.CustomFont(
                                   language.value == "ko" ? styleFontSize14 : styleFontSize12, Colors.black),
                             ));
@@ -198,7 +198,7 @@ class _MatingPageState extends State<MatingPage> {
                               width: language.value == "ko" ? 110 : 130,
                               child: Text(
                                 softWrap: true,
-                                menuProvider.translate('mate_schedule'),
+                                menuProvider.translate('mate_schedule'),        // <다국어> 교배예정돈
                                 style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize16 : styleFontSize12, Colors.black),
                               )
                       );
@@ -216,7 +216,7 @@ class _MatingPageState extends State<MatingPage> {
                                   return FittedBox(
                                       fit: BoxFit.scaleDown,
                                       child: Text(
-                                        menuProvider.translate('total'),
+                                        menuProvider.translate('total'),        // <다국어> 총
                                         style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.black),
                                       ));
                                 }),
@@ -230,7 +230,7 @@ class _MatingPageState extends State<MatingPage> {
                                   return FittedBox(
                                       fit: BoxFit.scaleDown,
                                       child: Text(
-                                        menuProvider.translate('do'),
+                                        menuProvider.translate('do'),           // <다국어> 두
                                         style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.black),
                                       ));
                                 }),
@@ -242,7 +242,7 @@ class _MatingPageState extends State<MatingPage> {
                           return FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
-                                menuProvider.translate('select'),
+                                menuProvider.translate('select'),               // <다국어> 선택
                                 style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.black),
                               ));
                         }),
@@ -255,7 +255,7 @@ class _MatingPageState extends State<MatingPage> {
                           return FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
-                                menuProvider.translate('do'),
+                                menuProvider.translate('do'),                   // <다국어> 두
                                 style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.black),
                               ));
                         }),
@@ -286,7 +286,7 @@ class _MatingPageState extends State<MatingPage> {
                         return FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              menuProvider.translate('mother_no'),
+                              menuProvider.translate('mother_no'),              // <다국어> 모돈번호
                               style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.white),
                             ));
                       }),
@@ -298,7 +298,7 @@ class _MatingPageState extends State<MatingPage> {
                         return FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              menuProvider.translate('parity'),
+                              menuProvider.translate('parity'),        // <다국어> 산차
                               style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.white),
                             ));
                       }),
@@ -310,7 +310,7 @@ class _MatingPageState extends State<MatingPage> {
                         return FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              menuProvider.translate('pig_status'),
+                              menuProvider.translate('pig_status'),     // <다국어> 현재상태
                               style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.white),
                             ));
                       }),
@@ -322,7 +322,7 @@ class _MatingPageState extends State<MatingPage> {
                         return FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              menuProvider.translate('last_work_date'),
+                              menuProvider.translate('last_work_date'),   // <다국어> 최종작업일
                               style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize13 : styleFontSize11, Colors.white),
                             ));
                       }),
@@ -356,7 +356,7 @@ class _MatingPageState extends State<MatingPage> {
                     return FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          menuProvider.translate('no_search'),
+                          menuProvider.translate('no_search'),      // <다국어> 검색된 목록이 없습니다
                           style: CustomStyle.CustomFont(styleFontSize18, Colors.black),
                         ));
                   }),
@@ -367,6 +367,7 @@ class _MatingPageState extends State<MatingPage> {
     );
   }
 
+  // List Item
   Widget getListView(SowModel item, int _index) {
     return InkWell(
       onTap: () async {
@@ -395,7 +396,7 @@ class _MatingPageState extends State<MatingPage> {
           Expanded(
             flex: 2,
             child: Text(
-              "${item.pig_coupon}",
+              "${item.pig_coupon}", // 모돈번호
               textAlign: TextAlign.center,
               style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
             )
@@ -403,7 +404,7 @@ class _MatingPageState extends State<MatingPage> {
           Expanded(
             flex: 1,
             child: Text(
-              "${item.parity}",
+              "${item.parity}",   // 산차
               textAlign: TextAlign.center,
               style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
             )
@@ -411,7 +412,7 @@ class _MatingPageState extends State<MatingPage> {
           Expanded(
             flex: 2,
             child: Text(
-              "${item.pig_status}",
+              "${item.pig_status}", // 현재상태
               textAlign: TextAlign.center,
               style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
             )
@@ -419,7 +420,7 @@ class _MatingPageState extends State<MatingPage> {
           Expanded(
             flex: 2,
             child: Text(
-            "${item.last_work_date??"-"}",
+            "${item.last_work_date??"-"}",  // 최종작업일
               textAlign: TextAlign.center,
             style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
             )
@@ -430,6 +431,7 @@ class _MatingPageState extends State<MatingPage> {
     );
   }
 
+  // 날짜 설정 Dialog
   Future openCalendarDialog() {
     DateTime? tempSelectedDay = mCalendarNowDate.value;
     return showModalBottomSheet(
@@ -480,9 +482,9 @@ class _MatingPageState extends State<MatingPage> {
                                             lastDay: DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day),
                                             daysOfWeekHeight: language.value == "ko" ? 32 * MediaQuery.of(context).textScaleFactor : 60 * MediaQuery.of(context).textScaleFactor,
                                             headerStyle: HeaderStyle(
-                                              // default로 설정 돼 있는 2 weeks 버튼을 없애줌 (아마 2주단위로 보기 버튼인듯?)
+                                              // default로 설정 돼 있는 2 weeks 버튼을 없애줌 (2주단위로 보기 버튼)
                                               formatButtonVisible: false,
-                                              // 달력 타이틀을 센터로
+                                              // 달력 타이틀 센터
                                               titleCentered: true,
                                               // 말 그대로 타이틀 텍스트 스타일링
                                               titleTextStyle: CustomStyle.CustomFont(
@@ -502,7 +504,7 @@ class _MatingPageState extends State<MatingPage> {
                                               outsideTextStyle: CustomStyle.CustomFont(styleFontSize13, line),
                                               // 오늘 날짜에 하이라이팅의 유무
                                               isTodayHighlighted: false,
-                                              // 캘린더의 평일 배경 스타일링(default면 평일을 의미)
+                                              // 캘린더의 평일 배경 스타일링(default 평일)
                                               defaultDecoration: const BoxDecoration(
                                                 color: Colors.white,
                                               ),
@@ -592,7 +594,7 @@ class _MatingPageState extends State<MatingPage> {
                                                     child: Consumer<MenuProvider>(
                                                         builder: (context, menuProvider, child) {
                                                           return Obx(() => Text(
-                                                            menuProvider.translate('commit'),
+                                                            menuProvider.translate('commit'),     // <다국어> 적용
                                                             softWrap: true,
                                                             textAlign: TextAlign.center,
                                                             style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize18 : styleFontSize12, Colors.white),
@@ -615,6 +617,7 @@ class _MatingPageState extends State<MatingPage> {
     );
   }
 
+  // 모돈 번호 검색 결과 Dialog
   openListDialog(BuildContext context, List<SowModel> list) {
     return showDialog(
         barrierDismissible: true,
@@ -651,7 +654,7 @@ class _MatingPageState extends State<MatingPage> {
                                         return FittedBox(
                                             fit: BoxFit.scaleDown,
                                             child: Text(
-                                              menuProvider.translate('mother_no'),
+                                              menuProvider.translate('mother_no'),      // <다국어> 모돈번호
                                               style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize15 : styleFontSize12, Colors.black,font_weight: FontWeight.w800),
                                             ));
                                       }),
@@ -663,7 +666,7 @@ class _MatingPageState extends State<MatingPage> {
                                         return FittedBox(
                                             fit: BoxFit.scaleDown,
                                             child: Text(
-                                              menuProvider.translate('parity'),
+                                              menuProvider.translate('parity'),       // <다국어> 산차
                                               style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize15 : styleFontSize12, Colors.black,font_weight: FontWeight.w800),
                                             ));
                                       }),
@@ -675,7 +678,7 @@ class _MatingPageState extends State<MatingPage> {
                                         return FittedBox(
                                             fit: BoxFit.scaleDown,
                                             child: Text(
-                                              menuProvider.translate('pig_status'),
+                                              menuProvider.translate('pig_status'),       // <다국어> 현재상태
                                               style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize15 : styleFontSize12, Colors.black,font_weight: FontWeight.w800),
                                             ));
                                       }),
@@ -696,7 +699,7 @@ class _MatingPageState extends State<MatingPage> {
                         return InkWell(
                             onTap: () async {
                               if (selectSowList.any((element) => element.mother_no == item.mother_no)) {
-                                Util.toast(context.read<MenuProvider>().translate('msg_validation'));
+                                Util.toast(context.read<MenuProvider>().translate('msg_validation'));       // <다국어> 이미 선택된 모돈입니다.
                               } else {
                                 selectSowList.add(item);
                                 int _index = mList.indexWhere((element) => element.mother_no == item.mother_no);
@@ -725,7 +728,7 @@ class _MatingPageState extends State<MatingPage> {
                                     Expanded(
                                         flex: 1,
                                         child: Text(
-                                          "${item.pig_coupon??"-"}",
+                                          "${item.pig_coupon??"-"}",    // 모돈번호
                                           textAlign: TextAlign.center,
                                           style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
                                         )
@@ -733,7 +736,7 @@ class _MatingPageState extends State<MatingPage> {
                                     Expanded(
                                         flex: 1,
                                         child: Text(
-                                          "${item.parity??0}",
+                                          "${item.parity??0}",    // 산차
                                           textAlign: TextAlign.center,
                                           style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
                                         )
@@ -741,7 +744,7 @@ class _MatingPageState extends State<MatingPage> {
                                     Expanded(
                                         flex: 1,
                                         child: Text(
-                                          "${item.pig_status??"-"}",
+                                          "${item.pig_status??"-"}",    // 현재상태
                                           textAlign: TextAlign.center,
                                           style: CustomStyle.CustomFont(styleFontSize13, Colors.black),
                                         )
@@ -782,9 +785,9 @@ class _MatingPageState extends State<MatingPage> {
         bool isAlreadyAdded = selectSowList.any((item) => item.mother_no == results["selectItem"].mother_no);
         print("goToQRPage() -> ${results["selectItem"].pig_coupon} // ${_index} // ${isAlreadyAdded}");
         if (_index < 0) {
-          Util.toast((context.read<MenuProvider>().translate('msg_not_match_mother_no')));
+          Util.toast((context.read<MenuProvider>().translate('msg_not_match_mother_no')));      // <다국어> 일치하는 모돈 번호가 없습니다.
         } else if (isAlreadyAdded) {
-          Util.toast(context.read<MenuProvider>().translate('msg_validation'));
+          Util.toast(context.read<MenuProvider>().translate('msg_validation'));                 // <다국어> 이미 선택된 모돈입니다.
         } else {
           // 중복이 아닌 경우에만 추가
           selectSowList.add(results["selectItem"]);
@@ -816,7 +819,7 @@ class _MatingPageState extends State<MatingPage> {
         mList.value = List.empty(growable: true);
       }
     }).catchError((Object obj) async {
-      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
+      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));      // <다국어> 서버연결에 문제가 있습니다.
       await pr?.hide();
       switch(obj.runtimeType) {
         case DioError:
@@ -830,6 +833,7 @@ class _MatingPageState extends State<MatingPage> {
     });
   }
 
+  // 교배 저장 API
   Future<Map<String,dynamic>> saveSow(SowModel sow) async {
     Logger logger = Logger();
     Map<String,dynamic> result = {};
@@ -839,12 +843,11 @@ class _MatingPageState extends State<MatingPage> {
       if(_response.error?["error_code"] == null || _response.error?["error_code"] == "") {
         result = {"result":true, "message": ""};
       }else{
-        //Util.toast("${_response.error?["error_code"]} : ${_response.error?["message"]}");
         result = {"result":false, "message": "모돈번호: ${sow.pig_coupon}\n(${_response.error?["error_code"]}) ${_response.error?["message"]}"};
       }
 
     }).catchError((Object obj) async {
-      result = {"result":false, "message": "모돈번호: ${sow.pig_coupon}:\n${context.read<MenuProvider>().translate('msg_server_connection_issue')}"};
+      result = {"result":false, "message": "모돈번호: ${sow.pig_coupon}:\n${context.read<MenuProvider>().translate('msg_server_connection_issue')}"};     // <다국어> 서버연결에 문제가 있습니다.
       switch(obj.runtimeType) {
         case DioError:
           final res = (obj as DioError).response;
@@ -858,6 +861,7 @@ class _MatingPageState extends State<MatingPage> {
     return result;
   }
 
+  // 모돈번호 검색 API
   Future<void> getSearchSow() async {
     Logger logger = Logger();
     await pr?.show();
@@ -868,7 +872,7 @@ class _MatingPageState extends State<MatingPage> {
       List<SowModel>? sow = _response.sow_list;
       openListDialog(this.context, sow??List.empty(growable: true));
     }).catchError((Object obj) async {
-      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));
+      Util.toast((context.read<MenuProvider>().translate('msg_server_connection_issue')));    // <다국어> 서버연결에 문제가 있습니다.
       await pr?.hide();
       switch(obj.runtimeType) {
         case DioError:
@@ -911,7 +915,7 @@ class _MatingPageState extends State<MatingPage> {
                 return FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
-                      menuProvider.translate('mate_manager'),
+                      menuProvider.translate('mate_manager'),     // <다국어> 교배관리
                       style: CustomStyle.CustomFont(styleFontSize18, Colors.white),
                     ));
               }),
@@ -924,15 +928,15 @@ class _MatingPageState extends State<MatingPage> {
               children: [
                 Expanded(
                     flex: 1,
-                    child: sowSearchWidget()
+                    child: sowSearchWidget()    // 모돈번호 검색 Widget
                 ),
                 Expanded(
                     flex: 8,
-                    child: sowList()
+                    child: sowList()      // 교배 List Widget
                 ),
                 Expanded(
                     flex: 1,
-                    child: Container(
+                    child: SizedBox(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -945,7 +949,7 @@ class _MatingPageState extends State<MatingPage> {
                                       return FittedBox(
                                           fit: BoxFit.scaleDown,
                                           child: Text(
-                                            menuProvider.translate('mate_day'),
+                                            menuProvider.translate('mate_day'),     // <다국어> 교배일자
                                             style: CustomStyle.CustomFont(styleFontSize16, Colors.black),
                                           ));
                                     }),
@@ -1024,20 +1028,20 @@ class _MatingPageState extends State<MatingPage> {
                                     setState(() {
                                       _isLoading = false;
                                       if(failed > 0) {
-                                        openOkBox(context,"Save Failed!!\n\n${failReason}",context.read<MenuProvider>().translate('confirm'), () {
+                                        openOkBox(context,"Save Failed!!\n\n${failReason}",context.read<MenuProvider>().translate('confirm'), () {      // <다국어> 확인
                                           Navigator.of(context).pop(false);
                                         });
                                         if(completed > 0) {
-                                          Util.toast(context.read<MenuProvider>().translate('msg_success_save_mating'));
+                                          Util.toast(context.read<MenuProvider>().translate('msg_success_save_mating'));      // <다국어> 교배가 저장되었습니다.
                                         }
                                       }else{
-                                        Util.toast(context.read<MenuProvider>().translate('msg_success_save_mating'));
+                                        Util.toast(context.read<MenuProvider>().translate('msg_success_save_mating'));        // <다국어> 교배가 저장되었습니다.
                                       }
                                       getSowList();
                                       selectSowList.value = List.empty(growable: true);
                                     });
                                   } else {
-                                    Util.toast((context.read<MenuProvider>().translate('msg_select_save_mother')));
+                                    Util.toast((context.read<MenuProvider>().translate('msg_select_save_mother')));         // <다국어> 저장할 모돈을 선택해주세요.
                                   }
                                 },
                                 child: Container(
@@ -1048,7 +1052,7 @@ class _MatingPageState extends State<MatingPage> {
                                   padding: EdgeInsets.symmetric(horizontal: CustomStyle.getWidth(20)),
                                   child: Consumer<MenuProvider>(builder: (context, menuProvider, child) {
                                     return Obx(() => Text(
-                                          menuProvider.translate('mate_save'),
+                                          menuProvider.translate('mate_save'),    // <다국어> 교배 저장
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: CustomStyle.CustomFont(language.value == "ko" ? styleFontSize18 : styleFontSize12, Colors.white),
@@ -1063,7 +1067,7 @@ class _MatingPageState extends State<MatingPage> {
                             right: 10,
                             child: InkWell(
                                 onTap: () {
-                                  goToManage();
+                                  goToManage();   // 기록 페이지로 이동
                                 },
                                 child: const Icon(
                                   Icons.list_alt,

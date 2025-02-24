@@ -20,6 +20,7 @@ class Strings {
 
   Map<String, String>? _strings;
 
+  // 선태된 언어 파일 Load
   Future<bool> load(String value) async {
     try {
       Directory directory = await getApplicationDocumentsDirectory();
@@ -94,6 +95,9 @@ class Strings {
     }
   }
 
+  /**
+   * API에서 언어 데이터를 가져오는 API
+   */
   Future<Map<String, dynamic>> getCode(String? code) async {
     Logger logger = Logger();
     final response = await http.post(headers: {
